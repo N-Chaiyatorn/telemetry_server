@@ -1,0 +1,3968 @@
+{
+    "Ref": {
+        "events": {
+            "121": {
+                "id": 121,
+                "description": "Op code registered event",
+                "name": "OpCodeRegistered",
+                "instance": "cmdDisp",
+                "component": "Svc::CommandDispatcher",
+                "format_string": "Opcode 0x%04X registered to port %d slot %d",
+                "severity": "DIAGNOSTIC",
+                "telem_type": "event",
+                "arguments": [
+                    "U32",
+                    "I32",
+                    "I32"
+                ]
+            },
+            "122": {
+                "id": 122,
+                "description": "Op code dispatched event",
+                "name": "OpCodeDispatched",
+                "instance": "cmdDisp",
+                "component": "Svc::CommandDispatcher",
+                "format_string": "Opcode 0x%04X dispatched to port %d",
+                "severity": "COMMAND",
+                "telem_type": "event",
+                "arguments": [
+                    "U32",
+                    "I32"
+                ]
+            },
+            "123": {
+                "id": 123,
+                "description": "Op code completed event",
+                "name": "OpCodeCompleted",
+                "instance": "cmdDisp",
+                "component": "Svc::CommandDispatcher",
+                "format_string": "Opcode 0x%04X completed",
+                "severity": "COMMAND",
+                "telem_type": "event",
+                "arguments": [
+                    "U32"
+                ]
+            },
+            "124": {
+                "id": 124,
+                "description": "Op code completed with error event",
+                "name": "OpCodeError",
+                "instance": "cmdDisp",
+                "component": "Svc::CommandDispatcher",
+                "format_string": "Opcode 0x%04X completed with error %d ",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "U32",
+                    [
+                        [
+                            "ENUM",
+                            "ErrorResponse"
+                        ],
+                        [
+                            [
+                                "ERR_INVALID_OPCODE",
+                                null,
+                                "Invalid opcode dispatched"
+                            ],
+                            [
+                                "ERR_VALIDATION_ERROR",
+                                null,
+                                "Command failed validation"
+                            ],
+                            [
+                                "ERR_FORMAT_ERROR",
+                                null,
+                                "Command failed to deserialize"
+                            ],
+                            [
+                                "ERR_EXECUTION_ERROR",
+                                null,
+                                "Command had execution error"
+                            ],
+                            [
+                                "ERR_BUSY",
+                                null,
+                                "Component busy"
+                            ],
+                            [
+                                "ERR_UNEXP",
+                                null,
+                                "Unexpected response"
+                            ]
+                        ]
+                    ]
+                ]
+            },
+            "125": {
+                "id": 125,
+                "description": "Received a malformed command packet",
+                "name": "MalformedCommand",
+                "instance": "cmdDisp",
+                "component": "Svc::CommandDispatcher",
+                "format_string": "Received malformed command packet. Status: %d",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    [
+                        [
+                            "ENUM",
+                            "CmdSerError"
+                        ],
+                        [
+                            [
+                                "ERR_BUFFER_TOO_SMALL",
+                                null,
+                                "Buffer too small"
+                            ],
+                            [
+                                "ERR_BUFFER_FORMAT",
+                                null,
+                                "Buffer wrong format"
+                            ],
+                            [
+                                "ERR_SIZE_MISMATCH",
+                                null,
+                                "Buffer size mismatch"
+                            ],
+                            [
+                                "ERR_TYPE_MISMATCH",
+                                null,
+                                "Buffer type mismatch"
+                            ],
+                            [
+                                "ERR_UNEXP_STAT",
+                                null,
+                                "Unexpected status"
+                            ]
+                        ]
+                    ]
+                ]
+            },
+            "126": {
+                "id": 126,
+                "description": "Received an invalid opcode",
+                "name": "InvalidCommand",
+                "instance": "cmdDisp",
+                "component": "Svc::CommandDispatcher",
+                "format_string": "Invalid opcode 0x%04X received.",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "U32"
+                ]
+            },
+            "127": {
+                "id": 127,
+                "description": "Exceeded the number of commands that can be simultaneously executed",
+                "name": "TooManyCommands",
+                "instance": "cmdDisp",
+                "component": "Svc::CommandDispatcher",
+                "format_string": "Too many outstanding commands. opcode=0x%04X",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "U32"
+                ]
+            },
+            "128": {
+                "id": 128,
+                "description": "The command dispatcher has successfully received a NO-OP command",
+                "name": "NoOpReceived",
+                "instance": "cmdDisp",
+                "component": "Svc::CommandDispatcher",
+                "format_string": "Received a NO-OP command",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": []
+            },
+            "129": {
+                "id": 129,
+                "description": "The command dispatcher has successfully received a NO-OP command from GUI with a string",
+                "name": "NoOpStringReceived",
+                "instance": "cmdDisp",
+                "component": "Svc::CommandDispatcher",
+                "format_string": "Received a NO-OP string=%s",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string"
+                ]
+            },
+            "130": {
+                "id": 130,
+                "description": "This log event message returns the TEST_CMD_1 arguments.",
+                "name": "TestCmd1Args",
+                "instance": "cmdDisp",
+                "component": "Svc::CommandDispatcher",
+                "format_string": "TEST_CMD_1 args: I32: %d, F32: %f, U8: %d",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "I32",
+                    "F32",
+                    "U8"
+                ]
+            },
+            "141": {
+                "id": 141,
+                "description": "Parameter ID not found in database.",
+                "name": "PrmIdNotFound",
+                "instance": "prmDb",
+                "component": "Svc::PrmDb",
+                "format_string": "Parameter ID 0x%08X not found",
+                "severity": "WARNING_LO",
+                "telem_type": "event",
+                "arguments": [
+                    "U32"
+                ]
+            },
+            "142": {
+                "id": 142,
+                "description": "Parameter ID updated in database",
+                "name": "PrmIdUpdated",
+                "instance": "prmDb",
+                "component": "Svc::PrmDb",
+                "format_string": "Parameter ID 0x%08X updated",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "U32"
+                ]
+            },
+            "143": {
+                "id": 143,
+                "description": "Parameter database is full",
+                "name": "PrmDbFull",
+                "instance": "prmDb",
+                "component": "Svc::PrmDb",
+                "format_string": "Parameter DB full when adding ID 0x%08X",
+                "severity": "FATAL",
+                "telem_type": "event",
+                "arguments": [
+                    "U32"
+                ]
+            },
+            "144": {
+                "id": 144,
+                "description": "Parameter ID added to database",
+                "name": "PrmIdAdded",
+                "instance": "prmDb",
+                "component": "Svc::PrmDb",
+                "format_string": "Parameter ID 0x%08X added",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "U32"
+                ]
+            },
+            "145": {
+                "id": 145,
+                "description": "Failed to write parameter file",
+                "name": "PrmFileWriteError",
+                "instance": "prmDb",
+                "component": "Svc::PrmDb",
+                "format_string": "Parameter write failed in stage %d with record %d and error %d",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    [
+                        [
+                            "ENUM",
+                            "PrmWriteError"
+                        ],
+                        [
+                            [
+                                "PRM_WRITE_OPEN",
+                                null,
+                                null
+                            ],
+                            [
+                                "PRM_WRITE_DELIMITER",
+                                null,
+                                null
+                            ],
+                            [
+                                "PRM_WRITE_DELIMITER_SIZE",
+                                null,
+                                null
+                            ],
+                            [
+                                "PRM_WRITE_RECORD_SIZE",
+                                null,
+                                null
+                            ],
+                            [
+                                "PRM_WRITE_RECORD_SIZE_SIZE",
+                                null,
+                                null
+                            ],
+                            [
+                                "PRM_WRITE_PARAMETER_ID",
+                                null,
+                                null
+                            ],
+                            [
+                                "PRM_WRITE_PARAMETER_ID_SIZE",
+                                null,
+                                null
+                            ],
+                            [
+                                "PRM_WRITE_PARAMETER_VALUE",
+                                null,
+                                null
+                            ],
+                            [
+                                "PRM_WRITE_PARAMETER_VALUE_SIZE",
+                                null,
+                                null
+                            ]
+                        ]
+                    ],
+                    "I32",
+                    "I32"
+                ]
+            },
+            "146": {
+                "id": 146,
+                "description": "Save of parameter file completed",
+                "name": "PrmFileSaveComplete",
+                "instance": "prmDb",
+                "component": "Svc::PrmDb",
+                "format_string": "Parameter file save completed. Wrote %d records.",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "U32"
+                ]
+            },
+            "147": {
+                "id": 147,
+                "description": "Failed to read parameter file",
+                "name": "PrmFileReadError",
+                "instance": "prmDb",
+                "component": "Svc::PrmDb",
+                "format_string": "Parameter file read failed in stage %d with record %d and error %d",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    [
+                        [
+                            "ENUM",
+                            "PrmReadError"
+                        ],
+                        [
+                            [
+                                "PRM_READ_OPEN",
+                                null,
+                                null
+                            ],
+                            [
+                                "PRM_READ_DELIMITER",
+                                null,
+                                null
+                            ],
+                            [
+                                "PRM_READ_DELIMITER_SIZE",
+                                null,
+                                null
+                            ],
+                            [
+                                "PRM_READ_DELIMITER_VALUE",
+                                null,
+                                null
+                            ],
+                            [
+                                "PRM_READ_RECORD_SIZE",
+                                null,
+                                null
+                            ],
+                            [
+                                "PRM_READ_RECORD_SIZE_SIZE",
+                                null,
+                                null
+                            ],
+                            [
+                                "PRM_READ_RECORD_SIZE_VALUE",
+                                null,
+                                null
+                            ],
+                            [
+                                "PRM_READ_PARAMETER_ID",
+                                null,
+                                null
+                            ],
+                            [
+                                "PRM_READ_PARAMETER_ID_SIZE",
+                                null,
+                                null
+                            ],
+                            [
+                                "PRM_READ_PARAMETER_VALUE",
+                                null,
+                                null
+                            ],
+                            [
+                                "PRM_READ_PARAMETER_VALUE_SIZE",
+                                null,
+                                null
+                            ]
+                        ]
+                    ],
+                    "I32",
+                    "I32"
+                ]
+            },
+            "148": {
+                "id": 148,
+                "description": "Load of parameter file completed",
+                "name": "PrmFileLoadComplete",
+                "instance": "prmDb",
+                "component": "Svc::PrmDb",
+                "format_string": "Parameter file load completed. Read %d records.",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "U32"
+                ]
+            },
+            "541": {
+                "id": 541,
+                "description": "Sequence file was successfully loaded.",
+                "name": "CS_SequenceLoaded",
+                "instance": "cmdSeq",
+                "component": "Svc::CmdSequencer",
+                "format_string": "Loaded sequence %s",
+                "severity": "ACTIVITY_LO",
+                "telem_type": "event",
+                "arguments": [
+                    "string"
+                ]
+            },
+            "542": {
+                "id": 542,
+                "description": "A command sequence was successfully canceled.",
+                "name": "CS_SequenceCanceled",
+                "instance": "cmdSeq",
+                "component": "Svc::CmdSequencer",
+                "format_string": "Sequence file %s canceled",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string"
+                ]
+            },
+            "543": {
+                "id": 543,
+                "description": "The Sequence File Loader could not read the sequence file.",
+                "name": "CS_FileReadError",
+                "instance": "cmdSeq",
+                "component": "Svc::CmdSequencer",
+                "format_string": "Error reading sequence file %s",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string"
+                ]
+            },
+            "544": {
+                "id": 544,
+                "description": "The sequence file format was invalid.",
+                "name": "CS_FileInvalid",
+                "instance": "cmdSeq",
+                "component": "Svc::CmdSequencer",
+                "format_string": "Sequence file %s invalid. Stage: %d Error: %d",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    [
+                        [
+                            "ENUM",
+                            "FileReadStage"
+                        ],
+                        [
+                            [
+                                "SEQ_READ_HEADER",
+                                null,
+                                null
+                            ],
+                            [
+                                "SEQ_READ_HEADER_SIZE",
+                                null,
+                                null
+                            ],
+                            [
+                                "SEQ_DESER_SIZE",
+                                null,
+                                null
+                            ],
+                            [
+                                "SEQ_DESER_NUM_RECORDS",
+                                null,
+                                null
+                            ],
+                            [
+                                "SEQ_DESER_TIME_BASE",
+                                null,
+                                null
+                            ],
+                            [
+                                "SEQ_DESER_TIME_CONTEXT",
+                                null,
+                                null
+                            ],
+                            [
+                                "SEQ_READ_SEQ_CRC",
+                                null,
+                                null
+                            ],
+                            [
+                                "SEQ_READ_SEQ_DATA",
+                                null,
+                                null
+                            ],
+                            [
+                                "SEQ_READ_SEQ_DATA_SIZE",
+                                null,
+                                null
+                            ]
+                        ]
+                    ],
+                    "I32"
+                ]
+            },
+            "545": {
+                "id": 545,
+                "description": "The format of a command record was invalid.",
+                "name": "CS_RecordInvalid",
+                "instance": "cmdSeq",
+                "component": "Svc::CmdSequencer",
+                "format_string": "Sequence file %s: Record %d invalid. Err: %d",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "U32",
+                    "I32"
+                ]
+            },
+            "546": {
+                "id": 546,
+                "description": "The sequence file was too large.",
+                "name": "CS_FileSizeError",
+                "instance": "cmdSeq",
+                "component": "Svc::CmdSequencer",
+                "format_string": "Sequence file %s too large. Size: %d",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "U32"
+                ]
+            },
+            "547": {
+                "id": 547,
+                "description": "The sequence file was not found",
+                "name": "CS_FileNotFound",
+                "instance": "cmdSeq",
+                "component": "Svc::CmdSequencer",
+                "format_string": "Sequence file %s not found.",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string"
+                ]
+            },
+            "548": {
+                "id": 548,
+                "description": "The sequence file validation failed",
+                "name": "CS_FileCrcFailure",
+                "instance": "cmdSeq",
+                "component": "Svc::CmdSequencer",
+                "format_string": "Sequence file %s had invalid CRC. Stored 0x%08X, Computed 0x%08X.",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "U32",
+                    "U32"
+                ]
+            },
+            "549": {
+                "id": 549,
+                "description": "The Command Sequencer issued a command and received a success status in return.",
+                "name": "CS_CommandComplete",
+                "instance": "cmdSeq",
+                "component": "Svc::CmdSequencer",
+                "format_string": "Sequence file %s: Command %d (opcode %d) complete",
+                "severity": "ACTIVITY_LO",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "U32",
+                    "U32"
+                ]
+            },
+            "550": {
+                "id": 550,
+                "description": "A command sequence successfully completed.",
+                "name": "CS_SequenceComplete",
+                "instance": "cmdSeq",
+                "component": "Svc::CmdSequencer",
+                "format_string": "Sequence file %s complete",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string"
+                ]
+            },
+            "551": {
+                "id": 551,
+                "description": "The Command Sequencer issued a command and received an error status in return.",
+                "name": "CS_CommandError",
+                "instance": "cmdSeq",
+                "component": "Svc::CmdSequencer",
+                "format_string": "Sequence file %s: Command %d (opcode %d) completed with error %d",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "U32",
+                    "U32",
+                    "U32"
+                ]
+            },
+            "552": {
+                "id": 552,
+                "description": "The Command Sequencer received a command that was invalid for its current mode.",
+                "name": "CS_InvalidMode",
+                "instance": "cmdSeq",
+                "component": "Svc::CmdSequencer",
+                "format_string": "Invalid mode",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": []
+            },
+            "553": {
+                "id": 553,
+                "description": "Number of records in header doesn't match number in file",
+                "name": "CS_RecordMismatch",
+                "instance": "cmdSeq",
+                "component": "Svc::CmdSequencer",
+                "format_string": "Sequence file %s header records mismatch: %d in header, found %d extra bytes.",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "U32",
+                    "U32"
+                ]
+            },
+            "554": {
+                "id": 554,
+                "description": "The running time base doesn't match the time base in the sequence files",
+                "name": "CS_TimeBaseMismatch",
+                "instance": "cmdSeq",
+                "component": "Svc::CmdSequencer",
+                "format_string": "Sequence file %s: Current time base doesn't match sequence time: base: %d seq: %d",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "U16",
+                    "U16"
+                ]
+            },
+            "555": {
+                "id": 555,
+                "description": "The running time base doesn't match the time base in the sequence files",
+                "name": "CS_TimeContextMismatch",
+                "instance": "cmdSeq",
+                "component": "Svc::CmdSequencer",
+                "format_string": "Sequence file %s: Current time context doesn't match sequence context: base: %d seq: %d",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "U8",
+                    "U8"
+                ]
+            },
+            "556": {
+                "id": 556,
+                "description": "A local port request to run a sequence was started",
+                "name": "CS_PortSequenceStarted",
+                "instance": "cmdSeq",
+                "component": "Svc::CmdSequencer",
+                "format_string": "Local request for sequence %s started.",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string"
+                ]
+            },
+            "557": {
+                "id": 557,
+                "description": "A command status came back when no sequence was running",
+                "name": "CS_UnexpectedCompletion",
+                "instance": "cmdSeq",
+                "component": "Svc::CmdSequencer",
+                "format_string": "Command complete status received while no sequences active. Opcode: %d",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "U32"
+                ]
+            },
+            "558": {
+                "id": 558,
+                "description": "Switched step mode",
+                "name": "CS_ModeSwitched",
+                "instance": "cmdSeq",
+                "component": "Svc::CmdSequencer",
+                "format_string": "Sequencer switched to %d step mode",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    [
+                        [
+                            "ENUM",
+                            "SeqMode"
+                        ],
+                        [
+                            [
+                                "SEQ_STEP_MODE",
+                                null,
+                                null
+                            ],
+                            [
+                                "SEQ_AUTO_MODE",
+                                null,
+                                null
+                            ]
+                        ]
+                    ]
+                ]
+            },
+            "559": {
+                "id": 559,
+                "description": "A sequence related command came with no active sequence",
+                "name": "CS_NoSequenceActive",
+                "instance": "cmdSeq",
+                "component": "Svc::CmdSequencer",
+                "format_string": "No sequence active.",
+                "severity": "WARNING_LO",
+                "telem_type": "event",
+                "arguments": []
+            },
+            "560": {
+                "id": 560,
+                "description": "A sequence passed validation",
+                "name": "CS_SequenceValid",
+                "instance": "cmdSeq",
+                "component": "Svc::CmdSequencer",
+                "format_string": "Sequence %s is valid.",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string"
+                ]
+            },
+            "561": {
+                "id": 561,
+                "description": "A sequence passed validation",
+                "name": "CS_SequenceTimeout",
+                "instance": "cmdSeq",
+                "component": "Svc::CmdSequencer",
+                "format_string": "Sequence %s timed out on command %d",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "U32"
+                ]
+            },
+            "562": {
+                "id": 562,
+                "description": "A command in a sequence was stepped through",
+                "name": "CS_CmdStepped",
+                "instance": "cmdSeq",
+                "component": "Svc::CmdSequencer",
+                "format_string": "Sequence %s command %d stepped",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "U32"
+                ]
+            },
+            "563": {
+                "id": 563,
+                "description": "A manual sequence was started",
+                "name": "CS_CmdStarted",
+                "instance": "cmdSeq",
+                "component": "Svc::CmdSequencer",
+                "format_string": "Sequence %s started",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string"
+                ]
+            },
+            "421": {
+                "id": 421,
+                "description": "Dump severity filter state",
+                "name": "SEVERITY_FILTER_STATE",
+                "instance": "eventLogger",
+                "component": "Svc::ActiveLogger",
+                "format_string": "%d filter state. %d",
+                "severity": "ACTIVITY_LO",
+                "telem_type": "event",
+                "arguments": [
+                    [
+                        [
+                            "ENUM",
+                            "EventFilterState"
+                        ],
+                        [
+                            [
+                                "FILT_WARNING_HI",
+                                null,
+                                null
+                            ],
+                            [
+                                "FILT_WARNING_LO",
+                                null,
+                                null
+                            ],
+                            [
+                                "FILT_COMMAND",
+                                null,
+                                null
+                            ],
+                            [
+                                "FILT_ACTIVITY_HI",
+                                null,
+                                null
+                            ],
+                            [
+                                "FILT_ACTIVITY_LO",
+                                null,
+                                null
+                            ],
+                            [
+                                "FILT_DIAGNOSTIC",
+                                null,
+                                null
+                            ]
+                        ]
+                    ],
+                    "bool"
+                ]
+            },
+            "422": {
+                "id": 422,
+                "description": "Indicate ID is filtered",
+                "name": "ID_FILTER_ENABLED",
+                "instance": "eventLogger",
+                "component": "Svc::ActiveLogger",
+                "format_string": "ID %d is filtered.",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "U32"
+                ]
+            },
+            "423": {
+                "id": 423,
+                "description": "Attempted to add ID to full ID filter ID",
+                "name": "ID_FILTER_LIST_FULL",
+                "instance": "eventLogger",
+                "component": "Svc::ActiveLogger",
+                "format_string": "ID filter list is full. Cannot filter %d .",
+                "severity": "WARNING_LO",
+                "telem_type": "event",
+                "arguments": [
+                    "U32"
+                ]
+            },
+            "424": {
+                "id": 424,
+                "description": "Removed an ID from the filter",
+                "name": "ID_FILTER_REMOVED",
+                "instance": "eventLogger",
+                "component": "Svc::ActiveLogger",
+                "format_string": "ID filter ID %d removed.",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "U32"
+                ]
+            },
+            "425": {
+                "id": 425,
+                "description": "ID not in filter",
+                "name": "ID_FILTER_NOT_FOUND",
+                "instance": "eventLogger",
+                "component": "Svc::ActiveLogger",
+                "format_string": "ID filter ID %d not found.",
+                "severity": "WARNING_LO",
+                "telem_type": "event",
+                "arguments": [
+                    "U32"
+                ]
+            },
+            "361": {
+                "id": 361,
+                "description": "Warn that a ping target is longer than the warning value",
+                "name": "HLTH_PING_WARN",
+                "instance": "health",
+                "component": "Svc::Health",
+                "format_string": "Ping entry %s late warning",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string"
+                ]
+            },
+            "362": {
+                "id": 362,
+                "description": "Declare FATAL since task is no longer responding",
+                "name": "HLTH_PING_LATE",
+                "instance": "health",
+                "component": "Svc::Health",
+                "format_string": "Ping entry %s did not respond",
+                "severity": "FATAL",
+                "telem_type": "event",
+                "arguments": [
+                    "string"
+                ]
+            },
+            "363": {
+                "id": 363,
+                "description": "Declare FATAL since task is no longer responding",
+                "name": "HLTH_PING_WRONG_KEY",
+                "instance": "health",
+                "component": "Svc::Health",
+                "format_string": "Ping entry %s responded with wrong key 0x%08X",
+                "severity": "FATAL",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "U32"
+                ]
+            },
+            "364": {
+                "id": 364,
+                "description": "Report checking turned on or off",
+                "name": "HLTH_CHECK_ENABLE",
+                "instance": "health",
+                "component": "Svc::Health",
+                "format_string": "Health checking set to %d",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    [
+                        [
+                            "ENUM",
+                            "HealthIsEnabled"
+                        ],
+                        [
+                            [
+                                "HEALTH_CHECK_DISABLED",
+                                null,
+                                null
+                            ],
+                            [
+                                "HEALTH_CHECK_ENABLED",
+                                null,
+                                null
+                            ]
+                        ]
+                    ]
+                ]
+            },
+            "365": {
+                "id": 365,
+                "description": "Report a particular entry on or off",
+                "name": "HLTH_CHECK_PING",
+                "instance": "health",
+                "component": "Svc::Health",
+                "format_string": "Health checking set to %d for %s",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    [
+                        [
+                            "ENUM",
+                            "HealthPingIsEnabled"
+                        ],
+                        [
+                            [
+                                "HEALTH_PING_DISABLED",
+                                null,
+                                null
+                            ],
+                            [
+                                "HEALTH_PING_ENABLED",
+                                null,
+                                null
+                            ]
+                        ]
+                    ],
+                    "string"
+                ]
+            },
+            "366": {
+                "id": 366,
+                "description": "Entry was not found",
+                "name": "HLTH_CHECK_LOOKUP_ERROR",
+                "instance": "health",
+                "component": "Svc::Health",
+                "format_string": "Couldn't find entry %s",
+                "severity": "WARNING_LO",
+                "telem_type": "event",
+                "arguments": [
+                    "string"
+                ]
+            },
+            "367": {
+                "id": 367,
+                "description": "Report changed ping",
+                "name": "HLTH_PING_UPDATED",
+                "instance": "health",
+                "component": "Svc::Health",
+                "format_string": "Health ping for %s changed to WARN %d FATAL %d",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "U32",
+                    "U32"
+                ]
+            },
+            "368": {
+                "id": 368,
+                "description": "Report changed ping",
+                "name": "HLTH_PING_INVALID_VALUES",
+                "instance": "health",
+                "component": "Svc::Health",
+                "format_string": "Health ping for %s invalid values: WARN %d FATAL %d",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "U32",
+                    "U32"
+                ]
+            },
+            "261": {
+                "id": 261,
+                "description": "During receipt of a file, the computed checksum value did not match the stored value",
+                "name": "BadChecksum",
+                "instance": "fileUplink",
+                "component": "Svc::FileUplink",
+                "format_string": "Bad checksum value during receipt of file %s: computed 0x%08X, read 0x%08X",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "U32",
+                    "U32"
+                ]
+            },
+            "262": {
+                "id": 262,
+                "description": "An error occurred opening a file",
+                "name": "fileUplink_FileOpenError",
+                "instance": "fileUplink",
+                "component": "Svc::FileUplink",
+                "format_string": "Could not open file %s",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string"
+                ]
+            },
+            "263": {
+                "id": 263,
+                "description": "The File Uplink component successfully received a file",
+                "name": "FileReceived",
+                "instance": "fileUplink",
+                "component": "Svc::FileUplink",
+                "format_string": "Received file %s",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string"
+                ]
+            },
+            "264": {
+                "id": 264,
+                "description": "An error occurred writing to a file",
+                "name": "FileWriteError",
+                "instance": "fileUplink",
+                "component": "Svc::FileUplink",
+                "format_string": "Could not write to file %s",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string"
+                ]
+            },
+            "265": {
+                "id": 265,
+                "description": "The File Uplink component received a packet with a type that was invalid for the current receive mode",
+                "name": "InvalidReceiveMode",
+                "instance": "fileUplink",
+                "component": "Svc::FileUplink",
+                "format_string": "Packet type %u received in mode %u",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "U32",
+                    "U32"
+                ]
+            },
+            "266": {
+                "id": 266,
+                "description": "During receipt of a file, the File Uplink component encountered a packet with offset and size out of bounds for the current file",
+                "name": "PacketOutOfBounds",
+                "instance": "fileUplink",
+                "component": "Svc::FileUplink",
+                "format_string": "Packet %u out of bounds for file %s",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "U32",
+                    "string"
+                ]
+            },
+            "267": {
+                "id": 267,
+                "description": "The File Uplink component encountered an out-of-order packet during file receipt",
+                "name": "PacketOutOfOrder",
+                "instance": "fileUplink",
+                "component": "Svc::FileUplink",
+                "format_string": "Received packet %u after packet %u",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "U32",
+                    "U32"
+                ]
+            },
+            "268": {
+                "id": 268,
+                "description": "The File Uplink component received a CANCEL packet",
+                "name": "UplinkCanceled",
+                "instance": "fileUplink",
+                "component": "Svc::FileUplink",
+                "format_string": "Received CANCEL packet",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": []
+            },
+            "269": {
+                "id": 269,
+                "description": "Error decoding file packet",
+                "name": "DecodeError",
+                "instance": "fileUplink",
+                "component": "Svc::FileUplink",
+                "format_string": "Unable to decode file packet. Status: %d",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "I32"
+                ]
+            },
+            "301": {
+                "id": 301,
+                "description": "The BufferManager was unable to allocate a requested buffer",
+                "name": "NoBuffsAvailable",
+                "instance": "fileUplinkBufferManager",
+                "component": "Svc::BufferManager",
+                "format_string": "No available buffers of size %d",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "U32"
+                ]
+            },
+            "302": {
+                "id": 302,
+                "description": "The buffer manager received a zero-sized buffer as a return. Probably undetected empty buffer allocation",
+                "name": "ZeroSizeBuffer",
+                "instance": "fileUplinkBufferManager",
+                "component": "Svc::BufferManager",
+                "format_string": "Received zero size buffer",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": []
+            },
+            "501": {
+                "id": 501,
+                "description": "An error occurred opening a file",
+                "name": "fileDownlink_FileOpenError",
+                "instance": "fileDownlink",
+                "component": "Svc::FileDownlink",
+                "format_string": "Could not open file %s",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string"
+                ]
+            },
+            "502": {
+                "id": 502,
+                "description": "An error occurred reading a file",
+                "name": "FileReadError",
+                "instance": "fileDownlink",
+                "component": "Svc::FileDownlink",
+                "format_string": "Could not read file %s with status %d",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "I32"
+                ]
+            },
+            "503": {
+                "id": 503,
+                "description": "The File Downlink component successfully sent a file",
+                "name": "FileSent",
+                "instance": "fileDownlink",
+                "component": "Svc::FileDownlink",
+                "format_string": "Sent file %s to file %s",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "string"
+                ]
+            },
+            "504": {
+                "id": 504,
+                "description": "The File Downlink component canceled downlink of a file",
+                "name": "DownlinkCanceled",
+                "instance": "fileDownlink",
+                "component": "Svc::FileDownlink",
+                "format_string": "Canceled downlink of file %s to file %s",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "string"
+                ]
+            },
+            "505": {
+                "id": 505,
+                "description": "The File Downlink component has detected a timeout. Downlink has been canceled.",
+                "name": "DownlinkTimeout",
+                "instance": "fileDownlink",
+                "component": "Svc::FileDownlink",
+                "format_string": "Timeout occurred during downlink of file %s to file %s. Downlink has been canceled.",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "string"
+                ]
+            },
+            "506": {
+                "id": 506,
+                "description": "The File Downlink component has detected a timeout. Downlink has been canceled.",
+                "name": "DownlinkPartialWarning",
+                "instance": "fileDownlink",
+                "component": "Svc::FileDownlink",
+                "format_string": "Offset %d plus length %d is greater than source size %d for partial downlink of file %s to file %s. ",
+                "severity": "WARNING_LO",
+                "telem_type": "event",
+                "arguments": [
+                    "U32",
+                    "U32",
+                    "U32",
+                    "string",
+                    "string"
+                ]
+            },
+            "507": {
+                "id": 507,
+                "description": "The File Downlink component has detected a timeout. Downlink has been canceled.",
+                "name": "DownlinkPartialFail",
+                "instance": "fileDownlink",
+                "component": "Svc::FileDownlink",
+                "format_string": "Error occurred during partial downlink of file %s to file %s. Offset %d greater than or equal to source filesize %d.",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "string",
+                    "U32",
+                    "U32"
+                ]
+            },
+            "508": {
+                "id": 508,
+                "description": "The File Downlink component generated an error when trying to send a data packet.",
+                "name": "SendDataFail",
+                "instance": "fileDownlink",
+                "component": "Svc::FileDownlink",
+                "format_string": "Failed to send data packet from file %s at byte offset %d.",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "U32"
+                ]
+            },
+            "509": {
+                "id": 509,
+                "description": "The File Downlink component started a file download.",
+                "name": "SendStarted",
+                "instance": "fileDownlink",
+                "component": "Svc::FileDownlink",
+                "format_string": "Downlink of %d bytes started from %s to %s",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "U32",
+                    "string",
+                    "string"
+                ]
+            },
+            "601": {
+                "id": 601,
+                "description": "An error occurred while attempting to create a directory",
+                "name": "DirectoryCreateError",
+                "instance": "fileManager",
+                "component": "Svc::FileManager",
+                "format_string": "Could not create directory %s, returned status %d",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "U32"
+                ]
+            },
+            "602": {
+                "id": 602,
+                "description": "An error occurred while attempting to remove a directory",
+                "name": "DirectoryRemoveError",
+                "instance": "fileManager",
+                "component": "Svc::FileManager",
+                "format_string": "Could not remove directory %s, returned status %d",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "U32"
+                ]
+            },
+            "603": {
+                "id": 603,
+                "description": "An error occurred while attempting to move a file",
+                "name": "FileMoveError",
+                "instance": "fileManager",
+                "component": "Svc::FileManager",
+                "format_string": "Could not move file %s to file %s, returned status %d",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "string",
+                    "U32"
+                ]
+            },
+            "604": {
+                "id": 604,
+                "description": "An error occurred while attempting to remove a file",
+                "name": "FileRemoveError",
+                "instance": "fileManager",
+                "component": "Svc::FileManager",
+                "format_string": "Could not remove file %s, returned status %d",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "U32"
+                ]
+            },
+            "605": {
+                "id": 605,
+                "description": "The File System component executed a shell command that returned status non-zero",
+                "name": "ShellCommandFailed",
+                "instance": "fileManager",
+                "component": "Svc::FileManager",
+                "format_string": "Shell command %s failed with status %d",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "U32"
+                ]
+            },
+            "606": {
+                "id": 606,
+                "description": "The File System component returned status non-zero when trying to append 2 files together",
+                "name": "AppendFileFailed",
+                "instance": "fileManager",
+                "component": "Svc::FileManager",
+                "format_string": "Appending %s onto %s failed with status %d",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "string",
+                    "U32"
+                ]
+            },
+            "607": {
+                "id": 607,
+                "description": "The File System component appended 2 files without error",
+                "name": "AppendFileSucceeded",
+                "instance": "fileManager",
+                "component": "Svc::FileManager",
+                "format_string": "Appended %s to the end of %s",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "string"
+                ]
+            },
+            "608": {
+                "id": 608,
+                "description": "The File System component executed a shell command that returned status zero",
+                "name": "ShellCommandSucceeded",
+                "instance": "fileManager",
+                "component": "Svc::FileManager",
+                "format_string": "Shell command %s succeeded",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string"
+                ]
+            },
+            "609": {
+                "id": 609,
+                "description": "The File System component created a new directory without error",
+                "name": "CreateDirectorySucceeded",
+                "instance": "fileManager",
+                "component": "Svc::FileManager",
+                "format_string": "Created directory %s successfully",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string"
+                ]
+            },
+            "610": {
+                "id": 610,
+                "description": "The File System component deleted and existing directory without error",
+                "name": "RemoveDirectorySucceeded",
+                "instance": "fileManager",
+                "component": "Svc::FileManager",
+                "format_string": "Removed directory %s successfully",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string"
+                ]
+            },
+            "611": {
+                "id": 611,
+                "description": "The File System component moved a file to a new location without error",
+                "name": "MoveFileSucceeded",
+                "instance": "fileManager",
+                "component": "Svc::FileManager",
+                "format_string": "Moved file %s to file %s successfully",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "string"
+                ]
+            },
+            "612": {
+                "id": 612,
+                "description": "The File System component deleted an existing file without error",
+                "name": "RemoveFileSucceeded",
+                "instance": "fileManager",
+                "component": "Svc::FileManager",
+                "format_string": "Removed file %s successfully",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string"
+                ]
+            },
+            "613": {
+                "id": 613,
+                "description": "The File System component appended 2 files without error",
+                "name": "AppendFileStarted",
+                "instance": "fileManager",
+                "component": "Svc::FileManager",
+                "format_string": "Appending file %s to the end of %s...",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "string"
+                ]
+            },
+            "614": {
+                "id": 614,
+                "description": "The File System component began executing a shell command",
+                "name": "ShellCommandStarted",
+                "instance": "fileManager",
+                "component": "Svc::FileManager",
+                "format_string": "Running shell command %s...",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string"
+                ]
+            },
+            "615": {
+                "id": 615,
+                "description": "The File System component began creating a new directory",
+                "name": "CreateDirectoryStarted",
+                "instance": "fileManager",
+                "component": "Svc::FileManager",
+                "format_string": "Creating directory %s...",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string"
+                ]
+            },
+            "616": {
+                "id": 616,
+                "description": "The File System component began deleting a directory",
+                "name": "RemoveDirectoryStarted",
+                "instance": "fileManager",
+                "component": "Svc::FileManager",
+                "format_string": "Removing directory %s...",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string"
+                ]
+            },
+            "617": {
+                "id": 617,
+                "description": "The File System component began moving a file to a new location",
+                "name": "MoveFileStarted",
+                "instance": "fileManager",
+                "component": "Svc::FileManager",
+                "format_string": "Moving file %s to file %s...",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "string"
+                ]
+            },
+            "618": {
+                "id": 618,
+                "description": "The File System component began deleting an existing file",
+                "name": "RemoveFileStarted",
+                "instance": "fileManager",
+                "component": "Svc::FileManager",
+                "format_string": "Removing file %s...",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "string"
+                ]
+            },
+            "341": {
+                "id": 341,
+                "description": "An assert happened",
+                "name": "AF_ASSERT_0",
+                "instance": "fatalAdapter",
+                "component": "Svc::AssertFatalAdapter",
+                "format_string": "Assert in file %s, line %d",
+                "severity": "FATAL",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "U32"
+                ]
+            },
+            "342": {
+                "id": 342,
+                "description": "An assert happened",
+                "name": "AF_ASSERT_1",
+                "instance": "fatalAdapter",
+                "component": "Svc::AssertFatalAdapter",
+                "format_string": "Assert in file %s, line %d: %d",
+                "severity": "FATAL",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "U32",
+                    "U32"
+                ]
+            },
+            "343": {
+                "id": 343,
+                "description": "An assert happened",
+                "name": "AF_ASSERT_2",
+                "instance": "fatalAdapter",
+                "component": "Svc::AssertFatalAdapter",
+                "format_string": "Assert in file %s, line %d: %d %d",
+                "severity": "FATAL",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "U32",
+                    "U32",
+                    "U32"
+                ]
+            },
+            "344": {
+                "id": 344,
+                "description": "An assert happened",
+                "name": "AF_ASSERT_3",
+                "instance": "fatalAdapter",
+                "component": "Svc::AssertFatalAdapter",
+                "format_string": "Assert in file %s, line %d: %d %d %d",
+                "severity": "FATAL",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "U32",
+                    "U32",
+                    "U32",
+                    "U32"
+                ]
+            },
+            "345": {
+                "id": 345,
+                "description": "An assert happened",
+                "name": "AF_ASSERT_4",
+                "instance": "fatalAdapter",
+                "component": "Svc::AssertFatalAdapter",
+                "format_string": "Assert in file %s, line %d: %d %d %d %d",
+                "severity": "FATAL",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "U32",
+                    "U32",
+                    "U32",
+                    "U32",
+                    "U32"
+                ]
+            },
+            "346": {
+                "id": 346,
+                "description": "An assert happened",
+                "name": "AF_ASSERT_5",
+                "instance": "fatalAdapter",
+                "component": "Svc::AssertFatalAdapter",
+                "format_string": "Assert in file %s, line %d: %d %d %d %d %d",
+                "severity": "FATAL",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "U32",
+                    "U32",
+                    "U32",
+                    "U32",
+                    "U32",
+                    "U32"
+                ]
+            },
+            "347": {
+                "id": 347,
+                "description": "An assert happened",
+                "name": "AF_ASSERT_6",
+                "instance": "fatalAdapter",
+                "component": "Svc::AssertFatalAdapter",
+                "format_string": "Assert in file %s, line %d: %d %d %d %d %d %d",
+                "severity": "FATAL",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "U32",
+                    "U32",
+                    "U32",
+                    "U32",
+                    "U32",
+                    "U32",
+                    "U32"
+                ]
+            },
+            "348": {
+                "id": 348,
+                "description": "An unexpected assert happened",
+                "name": "AF_UNEXPECTED_ASSERT",
+                "instance": "fatalAdapter",
+                "component": "Svc::AssertFatalAdapter",
+                "format_string": "Unexpected assert in file %s, line %d, args %d",
+                "severity": "FATAL",
+                "telem_type": "event",
+                "arguments": [
+                    "string",
+                    "U32",
+                    "U32"
+                ]
+            },
+            "21": {
+                "id": 21,
+                "description": "Informational event that rate group has started",
+                "name": "rateGroup1Comp_RateGroupStarted",
+                "instance": "rateGroup1Comp",
+                "component": "Svc::ActiveRateGroup",
+                "format_string": "Rate group started.",
+                "severity": "DIAGNOSTIC",
+                "telem_type": "event",
+                "arguments": []
+            },
+            "22": {
+                "id": 22,
+                "description": "Warning event that rate group has had a cycle slip",
+                "name": "rateGroup1Comp_RateGroupCycleSlip",
+                "instance": "rateGroup1Comp",
+                "component": "Svc::ActiveRateGroup",
+                "format_string": "Rate group cycle slipped on cycle %d",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "U32"
+                ]
+            },
+            "161": {
+                "id": 161,
+                "description": "Informational event that rate group has started",
+                "name": "rateGroup2Comp_RateGroupStarted",
+                "instance": "rateGroup2Comp",
+                "component": "Svc::ActiveRateGroup",
+                "format_string": "Rate group started.",
+                "severity": "DIAGNOSTIC",
+                "telem_type": "event",
+                "arguments": []
+            },
+            "162": {
+                "id": 162,
+                "description": "Warning event that rate group has had a cycle slip",
+                "name": "rateGroup2Comp_RateGroupCycleSlip",
+                "instance": "rateGroup2Comp",
+                "component": "Svc::ActiveRateGroup",
+                "format_string": "Rate group cycle slipped on cycle %d",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "U32"
+                ]
+            },
+            "241": {
+                "id": 241,
+                "description": "Informational event that rate group has started",
+                "name": "rateGroup3Comp_RateGroupStarted",
+                "instance": "rateGroup3Comp",
+                "component": "Svc::ActiveRateGroup",
+                "format_string": "Rate group started.",
+                "severity": "DIAGNOSTIC",
+                "telem_type": "event",
+                "arguments": []
+            },
+            "242": {
+                "id": 242,
+                "description": "Warning event that rate group has had a cycle slip",
+                "name": "rateGroup3Comp_RateGroupCycleSlip",
+                "instance": "rateGroup3Comp",
+                "component": "Svc::ActiveRateGroup",
+                "format_string": "Rate group cycle slipped on cycle %d",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "U32"
+                ]
+            },
+            "81": {
+                "id": 81,
+                "description": "First packet send",
+                "name": "FirstPacketSent",
+                "instance": "sendBuffComp",
+                "component": "Ref::SendBuff",
+                "format_string": "First packet ID %d received",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "U32"
+                ]
+            },
+            "82": {
+                "id": 82,
+                "description": "Packet checksum error",
+                "name": "PacketErrorInserted",
+                "instance": "sendBuffComp",
+                "component": "Ref::SendBuff",
+                "format_string": "Inserted error in packet ID %d",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "U32"
+                ]
+            },
+            "83": {
+                "id": 83,
+                "description": "Report parameter update",
+                "name": "BuffSendParameterUpdated",
+                "instance": "sendBuffComp",
+                "component": "Ref::SendBuff",
+                "format_string": "BuffSend Parameter %d was updated",
+                "severity": "ACTIVITY_LO",
+                "telem_type": "event",
+                "arguments": [
+                    "U32"
+                ]
+            },
+            "84": {
+                "id": 84,
+                "description": "A test FATAL",
+                "name": "SendBuffFatal",
+                "instance": "sendBuffComp",
+                "component": "Ref::SendBuff",
+                "format_string": "Test Fatal: %d %d %d",
+                "severity": "FATAL",
+                "telem_type": "event",
+                "arguments": [
+                    "U32",
+                    "U32",
+                    "U32"
+                ]
+            },
+            "101": {
+                "id": 101,
+                "description": "First packet received",
+                "name": "FirstPacketReceived",
+                "instance": "recvBuffComp",
+                "component": "Ref::RecvBuff",
+                "format_string": "First packet ID %d received",
+                "severity": "ACTIVITY_LO",
+                "telem_type": "event",
+                "arguments": [
+                    "U32"
+                ]
+            },
+            "102": {
+                "id": 102,
+                "description": "Packet checksum error",
+                "name": "PacketChecksumError",
+                "instance": "recvBuffComp",
+                "component": "Ref::RecvBuff",
+                "format_string": "Packet ID %d had checksum error",
+                "severity": "WARNING_HI",
+                "telem_type": "event",
+                "arguments": [
+                    "U32"
+                ]
+            },
+            "103": {
+                "id": 103,
+                "description": "Report parameter update",
+                "name": "BuffRecvParameterUpdated",
+                "instance": "recvBuffComp",
+                "component": "Ref::RecvBuff",
+                "format_string": "BuffRecv Parameter %d was updated",
+                "severity": "ACTIVITY_LO",
+                "telem_type": "event",
+                "arguments": [
+                    "U32"
+                ]
+            },
+            "41": {
+                "id": 41,
+                "description": "Disabled ping responses",
+                "name": "PR_PingsDisabled",
+                "instance": "pingRcvr",
+                "component": "Ref::PingReceiver",
+                "format_string": "PingReceiver ping responses disabled",
+                "severity": "ACTIVITY_HI",
+                "telem_type": "event",
+                "arguments": []
+            },
+            "42": {
+                "id": 42,
+                "description": "Got ping",
+                "name": "PR_PingReceived",
+                "instance": "pingRcvr",
+                "component": "Ref::PingReceiver",
+                "format_string": "PingReceiver pinged with code %d",
+                "severity": "DIAGNOSTIC",
+                "telem_type": "event",
+                "arguments": [
+                    "U32"
+                ]
+            },
+            "181": {
+                "id": 181,
+                "description": "Signal Generator Settings Changed",
+                "name": "SG1_SignalGen_SettingsChanged",
+                "instance": "SG1",
+                "component": "Ref::SignalGen",
+                "format_string": "Set Frequency(Hz) %d, Amplitude %f, Phase %f, Signal Type %s",
+                "severity": "ACTIVITY_LO",
+                "telem_type": "event",
+                "arguments": [
+                    "U32",
+                    "F32",
+                    "F32",
+                    "Ref::SignalType"
+                ]
+            },
+            "201": {
+                "id": 201,
+                "description": "Signal Generator Settings Changed",
+                "name": "SG3_SignalGen_SettingsChanged",
+                "instance": "SG3",
+                "component": "Ref::SignalGen",
+                "format_string": "Set Frequency(Hz) %d, Amplitude %f, Phase %f, Signal Type %s",
+                "severity": "ACTIVITY_LO",
+                "telem_type": "event",
+                "arguments": [
+                    "U32",
+                    "F32",
+                    "F32",
+                    "Ref::SignalType"
+                ]
+            },
+            "221": {
+                "id": 221,
+                "description": "Signal Generator Settings Changed",
+                "name": "SG2_SignalGen_SettingsChanged",
+                "instance": "SG2",
+                "component": "Ref::SignalGen",
+                "format_string": "Set Frequency(Hz) %d, Amplitude %f, Phase %f, Signal Type %s",
+                "severity": "ACTIVITY_LO",
+                "telem_type": "event",
+                "arguments": [
+                    "U32",
+                    "F32",
+                    "F32",
+                    "Ref::SignalType"
+                ]
+            },
+            "281": {
+                "id": 281,
+                "description": "Signal Generator Settings Changed",
+                "name": "SG5_SignalGen_SettingsChanged",
+                "instance": "SG5",
+                "component": "Ref::SignalGen",
+                "format_string": "Set Frequency(Hz) %d, Amplitude %f, Phase %f, Signal Type %s",
+                "severity": "ACTIVITY_LO",
+                "telem_type": "event",
+                "arguments": [
+                    "U32",
+                    "F32",
+                    "F32",
+                    "Ref::SignalType"
+                ]
+            },
+            "321": {
+                "id": 321,
+                "description": "Signal Generator Settings Changed",
+                "name": "SG4_SignalGen_SettingsChanged",
+                "instance": "SG4",
+                "component": "Ref::SignalGen",
+                "format_string": "Set Frequency(Hz) %d, Amplitude %f, Phase %f, Signal Type %s",
+                "severity": "ACTIVITY_LO",
+                "telem_type": "event",
+                "arguments": [
+                    "U32",
+                    "F32",
+                    "F32",
+                    "Ref::SignalType"
+                ]
+            }
+        },
+        "channels": {
+            "121": {
+                "id": 121,
+                "name": "CommandsDispatched",
+                "instance": "cmdDisp",
+                "description": "Number of commands dispatched",
+                "telem_type": "channel",
+                "component": "Svc::CommandDispatcher",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "U32",
+                "units": []
+            },
+            "122": {
+                "id": 122,
+                "name": "CommandErrors",
+                "instance": "cmdDisp",
+                "description": "Number of command errors",
+                "telem_type": "channel",
+                "component": "Svc::CommandDispatcher",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "U32",
+                "units": []
+            },
+            "541": {
+                "id": 541,
+                "name": "CS_LoadCommands",
+                "instance": "cmdSeq",
+                "description": "The number of Load commands executed",
+                "telem_type": "channel",
+                "component": "Svc::CmdSequencer",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "U32",
+                "units": []
+            },
+            "542": {
+                "id": 542,
+                "name": "CS_CancelCommands",
+                "instance": "cmdSeq",
+                "description": "The number of Cancel commands executed",
+                "telem_type": "channel",
+                "component": "Svc::CmdSequencer",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "U32",
+                "units": []
+            },
+            "543": {
+                "id": 543,
+                "name": "CS_Errors",
+                "instance": "cmdSeq",
+                "description": "The number of errors that have occurred",
+                "telem_type": "channel",
+                "component": "Svc::CmdSequencer",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "U32",
+                "units": []
+            },
+            "544": {
+                "id": 544,
+                "name": "CS_CommandsExecuted",
+                "instance": "cmdSeq",
+                "description": "The number of commands executed across all sequences.",
+                "telem_type": "channel",
+                "component": "Svc::CmdSequencer",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "U32",
+                "units": []
+            },
+            "545": {
+                "id": 545,
+                "name": "CS_SequencesCompleted",
+                "instance": "cmdSeq",
+                "description": "The number of sequences completed.",
+                "telem_type": "channel",
+                "component": "Svc::CmdSequencer",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "U32",
+                "units": []
+            },
+            "361": {
+                "id": 361,
+                "name": "PingLateWarnings",
+                "instance": "health",
+                "description": "Number of overrun warnings",
+                "telem_type": "channel",
+                "component": "Svc::Health",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "U32",
+                "units": []
+            },
+            "261": {
+                "id": 261,
+                "name": "FilesReceived",
+                "instance": "fileUplink",
+                "description": "The total number of complete files received",
+                "telem_type": "channel",
+                "component": "Svc::FileUplink",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "U32",
+                "units": []
+            },
+            "262": {
+                "id": 262,
+                "name": "PacketsReceived",
+                "instance": "fileUplink",
+                "description": "The total number of packets received",
+                "telem_type": "channel",
+                "component": "Svc::FileUplink",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "U32",
+                "units": []
+            },
+            "263": {
+                "id": 263,
+                "name": "fileUplink_Warnings",
+                "instance": "fileUplink",
+                "description": "The total number of warnings issued",
+                "telem_type": "channel",
+                "component": "Svc::FileUplink",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "U32",
+                "units": []
+            },
+            "301": {
+                "id": 301,
+                "name": "TotalBuffs",
+                "instance": "fileUplinkBufferManager",
+                "description": "The total buffers allocated",
+                "telem_type": "channel",
+                "component": "Svc::BufferManager",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "U32",
+                "units": []
+            },
+            "302": {
+                "id": 302,
+                "name": "CurrBuffs",
+                "instance": "fileUplinkBufferManager",
+                "description": "The current number of allocated buffers",
+                "telem_type": "channel",
+                "component": "Svc::BufferManager",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "U32",
+                "units": []
+            },
+            "303": {
+                "id": 303,
+                "name": "HiBuffs",
+                "instance": "fileUplinkBufferManager",
+                "description": "The high water mark of allocated buffers",
+                "telem_type": "channel",
+                "component": "Svc::BufferManager",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "U32",
+                "units": []
+            },
+            "304": {
+                "id": 304,
+                "name": "NoBuffs",
+                "instance": "fileUplinkBufferManager",
+                "description": "The number of requests that couldn't return a buffer",
+                "telem_type": "channel",
+                "component": "Svc::BufferManager",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": "1"
+                },
+                "type": "U32",
+                "units": []
+            },
+            "305": {
+                "id": 305,
+                "name": "EmptyBuffs",
+                "instance": "fileUplinkBufferManager",
+                "description": "The number of empty buffers returned",
+                "telem_type": "channel",
+                "component": "Svc::BufferManager",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": "1"
+                },
+                "type": "U32",
+                "units": []
+            },
+            "501": {
+                "id": 501,
+                "name": "FilesSent",
+                "instance": "fileDownlink",
+                "description": "The total number of files sent",
+                "telem_type": "channel",
+                "component": "Svc::FileDownlink",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "U32",
+                "units": []
+            },
+            "502": {
+                "id": 502,
+                "name": "fileDownlink_PacketsSent",
+                "instance": "fileDownlink",
+                "description": "The total number of packets sent",
+                "telem_type": "channel",
+                "component": "Svc::FileDownlink",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "U32",
+                "units": []
+            },
+            "503": {
+                "id": 503,
+                "name": "fileDownlink_Warnings",
+                "instance": "fileDownlink",
+                "description": "The total number of warnings",
+                "telem_type": "channel",
+                "component": "Svc::FileDownlink",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "U32",
+                "units": []
+            },
+            "601": {
+                "id": 601,
+                "name": "CommandsExecuted",
+                "instance": "fileManager",
+                "description": "The total number of commands successfully executed",
+                "telem_type": "channel",
+                "component": "Svc::FileManager",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "U32",
+                "units": []
+            },
+            "602": {
+                "id": 602,
+                "name": "Errors",
+                "instance": "fileManager",
+                "description": "The total number of errors",
+                "telem_type": "channel",
+                "component": "Svc::FileManager",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "U32",
+                "units": []
+            },
+            "21": {
+                "id": 21,
+                "name": "rateGroup1Comp_RgMaxTime",
+                "instance": "rateGroup1Comp",
+                "description": "Max execution time rate group",
+                "telem_type": "channel",
+                "component": "Svc::ActiveRateGroup",
+                "format_string": "%u us",
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "U32",
+                "units": []
+            },
+            "22": {
+                "id": 22,
+                "name": "rateGroup1Comp_RgCycleSlips",
+                "instance": "rateGroup1Comp",
+                "description": "Cycle slips for rate group",
+                "telem_type": "channel",
+                "component": "Svc::ActiveRateGroup",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "U32",
+                "units": []
+            },
+            "161": {
+                "id": 161,
+                "name": "rateGroup2Comp_RgMaxTime",
+                "instance": "rateGroup2Comp",
+                "description": "Max execution time rate group",
+                "telem_type": "channel",
+                "component": "Svc::ActiveRateGroup",
+                "format_string": "%u us",
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "U32",
+                "units": []
+            },
+            "162": {
+                "id": 162,
+                "name": "rateGroup2Comp_RgCycleSlips",
+                "instance": "rateGroup2Comp",
+                "description": "Cycle slips for rate group",
+                "telem_type": "channel",
+                "component": "Svc::ActiveRateGroup",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "U32",
+                "units": []
+            },
+            "241": {
+                "id": 241,
+                "name": "rateGroup3Comp_RgMaxTime",
+                "instance": "rateGroup3Comp",
+                "description": "Max execution time rate group",
+                "telem_type": "channel",
+                "component": "Svc::ActiveRateGroup",
+                "format_string": "%u us",
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "U32",
+                "units": []
+            },
+            "242": {
+                "id": 242,
+                "name": "rateGroup3Comp_RgCycleSlips",
+                "instance": "rateGroup3Comp",
+                "description": "Cycle slips for rate group",
+                "telem_type": "channel",
+                "component": "Svc::ActiveRateGroup",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "U32",
+                "units": []
+            },
+            "81": {
+                "id": 81,
+                "name": "sendBuffComp_PacketsSent",
+                "instance": "sendBuffComp",
+                "description": "Number of packets sent",
+                "telem_type": "channel",
+                "component": "Ref::SendBuff",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "U64",
+                "units": []
+            },
+            "82": {
+                "id": 82,
+                "name": "NumErrorsInjected",
+                "instance": "sendBuffComp",
+                "description": "Number of errors injected",
+                "telem_type": "channel",
+                "component": "Ref::SendBuff",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "U32",
+                "units": []
+            },
+            "83": {
+                "id": 83,
+                "name": "Parameter3",
+                "instance": "sendBuffComp",
+                "description": "Readback of Parameter3",
+                "telem_type": "channel",
+                "component": "Ref::SendBuff",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "U8",
+                "units": []
+            },
+            "84": {
+                "id": 84,
+                "name": "Parameter4",
+                "instance": "sendBuffComp",
+                "description": "Readback of Parameter4",
+                "telem_type": "channel",
+                "component": "Ref::SendBuff",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "F32",
+                "units": []
+            },
+            "85": {
+                "id": 85,
+                "name": "SendState",
+                "instance": "sendBuffComp",
+                "description": "Readback of Parameter4",
+                "telem_type": "channel",
+                "component": "Ref::SendBuff",
+                "format_string": "%s",
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "Enum",
+                "units": [],
+                "enum_dict": {
+                    "0": "SEND_IDLE",
+                    "1": "SEND_ACTIVE"
+                }
+            },
+            "101": {
+                "id": 101,
+                "name": "PktState",
+                "instance": "recvBuffComp",
+                "description": "Packet Statistics",
+                "telem_type": "channel",
+                "component": "Ref::RecvBuff",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "Ref::PacketStat",
+                "units": []
+            },
+            "102": {
+                "id": 102,
+                "name": "Sensor1",
+                "instance": "recvBuffComp",
+                "description": "Value of Sensor1",
+                "telem_type": "channel",
+                "component": "Ref::RecvBuff",
+                "format_string": "%4.2fV",
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "F32",
+                "units": []
+            },
+            "103": {
+                "id": 103,
+                "name": "Sensor2",
+                "instance": "recvBuffComp",
+                "description": "Value of Sensor3",
+                "telem_type": "channel",
+                "component": "Ref::RecvBuff",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "F32",
+                "units": []
+            },
+            "104": {
+                "id": 104,
+                "name": "Parameter1",
+                "instance": "recvBuffComp",
+                "description": "Readback of Parameter1",
+                "telem_type": "channel",
+                "component": "Ref::RecvBuff",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "U32",
+                "units": []
+            },
+            "105": {
+                "id": 105,
+                "name": "Parameter2",
+                "instance": "recvBuffComp",
+                "description": "Readback of Parameter2",
+                "telem_type": "channel",
+                "component": "Ref::RecvBuff",
+                "format_string": null,
+                "limits": {
+                    "low_red": "-3",
+                    "low_orange": "-2",
+                    "low_yellow": "-1",
+                    "high_yellow": "1",
+                    "high_orange": "2",
+                    "high_red": "3"
+                },
+                "type": "I16",
+                "units": []
+            },
+            "41": {
+                "id": 41,
+                "name": "PR_NumPings",
+                "instance": "pingRcvr",
+                "description": "Number of pings received",
+                "telem_type": "channel",
+                "component": "Ref::PingReceiver",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "U32",
+                "units": []
+            },
+            "181": {
+                "id": 181,
+                "name": "SG1_Type",
+                "instance": "SG1",
+                "description": "Type of the output signal: SINE, TRIANGLE, etc.",
+                "telem_type": "channel",
+                "component": "Ref::SignalGen",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "Ref::SignalType",
+                "units": []
+            },
+            "182": {
+                "id": 182,
+                "name": "SG1_Output",
+                "instance": "SG1",
+                "description": "Single Y value of the output",
+                "telem_type": "channel",
+                "component": "Ref::SignalGen",
+                "format_string": "%2.4f",
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "F32",
+                "units": []
+            },
+            "183": {
+                "id": 183,
+                "name": "SG1_PairOutput",
+                "instance": "SG1",
+                "description": "Single (time, value) pair of the signal",
+                "telem_type": "channel",
+                "component": "Ref::SignalGen",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "Ref::SignalPair",
+                "units": []
+            },
+            "184": {
+                "id": 184,
+                "name": "SG1_History",
+                "instance": "SG1",
+                "description": "Last 10 Y values of the signal",
+                "telem_type": "channel",
+                "component": "Ref::SignalGen",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "Ref::SignalSet",
+                "units": []
+            },
+            "185": {
+                "id": 185,
+                "name": "SG1_PairHistory",
+                "instance": "SG1",
+                "description": "Last 10 (time, value) pairs of the signal",
+                "telem_type": "channel",
+                "component": "Ref::SignalGen",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "Ref::SignalPairSet",
+                "units": []
+            },
+            "186": {
+                "id": 186,
+                "name": "SG1_Info",
+                "instance": "SG1",
+                "description": "Composite field of signal information, containing histories, pairs etc",
+                "telem_type": "channel",
+                "component": "Ref::SignalGen",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "Ref::SignalInfo",
+                "units": []
+            },
+            "201": {
+                "id": 201,
+                "name": "SG3_Type",
+                "instance": "SG3",
+                "description": "Type of the output signal: SINE, TRIANGLE, etc.",
+                "telem_type": "channel",
+                "component": "Ref::SignalGen",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "Ref::SignalType",
+                "units": []
+            },
+            "202": {
+                "id": 202,
+                "name": "SG3_Output",
+                "instance": "SG3",
+                "description": "Single Y value of the output",
+                "telem_type": "channel",
+                "component": "Ref::SignalGen",
+                "format_string": "%2.4f",
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "F32",
+                "units": []
+            },
+            "203": {
+                "id": 203,
+                "name": "SG3_PairOutput",
+                "instance": "SG3",
+                "description": "Single (time, value) pair of the signal",
+                "telem_type": "channel",
+                "component": "Ref::SignalGen",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "Ref::SignalPair",
+                "units": []
+            },
+            "204": {
+                "id": 204,
+                "name": "SG3_History",
+                "instance": "SG3",
+                "description": "Last 10 Y values of the signal",
+                "telem_type": "channel",
+                "component": "Ref::SignalGen",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "Ref::SignalSet",
+                "units": []
+            },
+            "205": {
+                "id": 205,
+                "name": "SG3_PairHistory",
+                "instance": "SG3",
+                "description": "Last 10 (time, value) pairs of the signal",
+                "telem_type": "channel",
+                "component": "Ref::SignalGen",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "Ref::SignalPairSet",
+                "units": []
+            },
+            "206": {
+                "id": 206,
+                "name": "SG3_Info",
+                "instance": "SG3",
+                "description": "Composite field of signal information, containing histories, pairs etc",
+                "telem_type": "channel",
+                "component": "Ref::SignalGen",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "Ref::SignalInfo",
+                "units": []
+            },
+            "221": {
+                "id": 221,
+                "name": "SG2_Type",
+                "instance": "SG2",
+                "description": "Type of the output signal: SINE, TRIANGLE, etc.",
+                "telem_type": "channel",
+                "component": "Ref::SignalGen",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "Ref::SignalType",
+                "units": []
+            },
+            "222": {
+                "id": 222,
+                "name": "SG2_Output",
+                "instance": "SG2",
+                "description": "Single Y value of the output",
+                "telem_type": "channel",
+                "component": "Ref::SignalGen",
+                "format_string": "%2.4f",
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "F32",
+                "units": []
+            },
+            "223": {
+                "id": 223,
+                "name": "SG2_PairOutput",
+                "instance": "SG2",
+                "description": "Single (time, value) pair of the signal",
+                "telem_type": "channel",
+                "component": "Ref::SignalGen",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "Ref::SignalPair",
+                "units": []
+            },
+            "224": {
+                "id": 224,
+                "name": "SG2_History",
+                "instance": "SG2",
+                "description": "Last 10 Y values of the signal",
+                "telem_type": "channel",
+                "component": "Ref::SignalGen",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "Ref::SignalSet",
+                "units": []
+            },
+            "225": {
+                "id": 225,
+                "name": "SG2_PairHistory",
+                "instance": "SG2",
+                "description": "Last 10 (time, value) pairs of the signal",
+                "telem_type": "channel",
+                "component": "Ref::SignalGen",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "Ref::SignalPairSet",
+                "units": []
+            },
+            "226": {
+                "id": 226,
+                "name": "SG2_Info",
+                "instance": "SG2",
+                "description": "Composite field of signal information, containing histories, pairs etc",
+                "telem_type": "channel",
+                "component": "Ref::SignalGen",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "Ref::SignalInfo",
+                "units": []
+            },
+            "281": {
+                "id": 281,
+                "name": "SG5_Type",
+                "instance": "SG5",
+                "description": "Type of the output signal: SINE, TRIANGLE, etc.",
+                "telem_type": "channel",
+                "component": "Ref::SignalGen",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "Ref::SignalType",
+                "units": []
+            },
+            "282": {
+                "id": 282,
+                "name": "SG5_Output",
+                "instance": "SG5",
+                "description": "Single Y value of the output",
+                "telem_type": "channel",
+                "component": "Ref::SignalGen",
+                "format_string": "%2.4f",
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "F32",
+                "units": []
+            },
+            "283": {
+                "id": 283,
+                "name": "SG5_PairOutput",
+                "instance": "SG5",
+                "description": "Single (time, value) pair of the signal",
+                "telem_type": "channel",
+                "component": "Ref::SignalGen",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "Ref::SignalPair",
+                "units": []
+            },
+            "284": {
+                "id": 284,
+                "name": "SG5_History",
+                "instance": "SG5",
+                "description": "Last 10 Y values of the signal",
+                "telem_type": "channel",
+                "component": "Ref::SignalGen",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "Ref::SignalSet",
+                "units": []
+            },
+            "285": {
+                "id": 285,
+                "name": "SG5_PairHistory",
+                "instance": "SG5",
+                "description": "Last 10 (time, value) pairs of the signal",
+                "telem_type": "channel",
+                "component": "Ref::SignalGen",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "Ref::SignalPairSet",
+                "units": []
+            },
+            "286": {
+                "id": 286,
+                "name": "SG5_Info",
+                "instance": "SG5",
+                "description": "Composite field of signal information, containing histories, pairs etc",
+                "telem_type": "channel",
+                "component": "Ref::SignalGen",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "Ref::SignalInfo",
+                "units": []
+            },
+            "321": {
+                "id": 321,
+                "name": "SG4_Type",
+                "instance": "SG4",
+                "description": "Type of the output signal: SINE, TRIANGLE, etc.",
+                "telem_type": "channel",
+                "component": "Ref::SignalGen",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "Ref::SignalType",
+                "units": []
+            },
+            "322": {
+                "id": 322,
+                "name": "SG4_Output",
+                "instance": "SG4",
+                "description": "Single Y value of the output",
+                "telem_type": "channel",
+                "component": "Ref::SignalGen",
+                "format_string": "%2.4f",
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "F32",
+                "units": []
+            },
+            "323": {
+                "id": 323,
+                "name": "SG4_PairOutput",
+                "instance": "SG4",
+                "description": "Single (time, value) pair of the signal",
+                "telem_type": "channel",
+                "component": "Ref::SignalGen",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "Ref::SignalPair",
+                "units": []
+            },
+            "324": {
+                "id": 324,
+                "name": "SG4_History",
+                "instance": "SG4",
+                "description": "Last 10 Y values of the signal",
+                "telem_type": "channel",
+                "component": "Ref::SignalGen",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "Ref::SignalSet",
+                "units": []
+            },
+            "325": {
+                "id": 325,
+                "name": "SG4_PairHistory",
+                "instance": "SG4",
+                "description": "Last 10 (time, value) pairs of the signal",
+                "telem_type": "channel",
+                "component": "Ref::SignalGen",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "Ref::SignalPairSet",
+                "units": []
+            },
+            "326": {
+                "id": 326,
+                "name": "SG4_Info",
+                "instance": "SG4",
+                "description": "Composite field of signal information, containing histories, pairs etc",
+                "telem_type": "channel",
+                "component": "Ref::SignalGen",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "Ref::SignalInfo",
+                "units": []
+            },
+            "481": {
+                "id": 481,
+                "name": "BD_Cycles",
+                "instance": "blockDrv",
+                "description": "Driver cycle count",
+                "telem_type": "channel",
+                "component": "Drv::BlockDriver",
+                "format_string": null,
+                "limits": {
+                    "low_red": null,
+                    "low_orange": null,
+                    "low_yellow": null,
+                    "high_yellow": null,
+                    "high_orange": null,
+                    "high_red": null
+                },
+                "type": "U32",
+                "units": []
+            }
+        },
+        "commands": {
+            "121": {
+                "id": 121,
+                "name": "CMD_NO_OP",
+                "instance": "cmdDisp",
+                "description": "No-op command",
+                "component": "Svc::CommandDispatcher",
+                "arguments": []
+            },
+            "122": {
+                "id": 122,
+                "name": "CMD_NO_OP_STRING",
+                "instance": "cmdDisp",
+                "description": "No-op string command",
+                "component": "Svc::CommandDispatcher",
+                "arguments": [
+                    "string"
+                ]
+            },
+            "123": {
+                "id": 123,
+                "name": "CMD_TEST_CMD_1",
+                "instance": "cmdDisp",
+                "description": "No-op command",
+                "component": "Svc::CommandDispatcher",
+                "arguments": [
+                    "I32",
+                    "F32",
+                    "U8"
+                ]
+            },
+            "124": {
+                "id": 124,
+                "name": "CMD_CLEAR_TRACKING",
+                "instance": "cmdDisp",
+                "description": "Clear command tracking info to recover from components not returning status",
+                "component": "Svc::CommandDispatcher",
+                "arguments": []
+            },
+            "141": {
+                "id": 141,
+                "name": "PRM_SAVE_FILE",
+                "instance": "prmDb",
+                "description": "Command to save parameter image to file. Uses file name passed to constructor",
+                "component": "Svc::PrmDb",
+                "arguments": []
+            },
+            "541": {
+                "id": 541,
+                "name": "CS_RUN",
+                "instance": "cmdSeq",
+                "description": "Run a command sequence file",
+                "component": "Svc::CmdSequencer",
+                "arguments": [
+                    "string"
+                ]
+            },
+            "542": {
+                "id": 542,
+                "name": "CS_VALIDATE",
+                "instance": "cmdSeq",
+                "description": "Validate a command sequence file",
+                "component": "Svc::CmdSequencer",
+                "arguments": [
+                    "string"
+                ]
+            },
+            "543": {
+                "id": 543,
+                "name": "CS_CANCEL",
+                "instance": "cmdSeq",
+                "description": "Cancel a command sequence",
+                "component": "Svc::CmdSequencer",
+                "arguments": []
+            },
+            "544": {
+                "id": 544,
+                "name": "CS_START",
+                "instance": "cmdSeq",
+                "description": "Start running a command sequence",
+                "component": "Svc::CmdSequencer",
+                "arguments": []
+            },
+            "545": {
+                "id": 545,
+                "name": "CS_STEP",
+                "instance": "cmdSeq",
+                "description": "Perform one step in a command sequence. Valid only if CmdSequencer is in MANUAL run mode.",
+                "component": "Svc::CmdSequencer",
+                "arguments": []
+            },
+            "546": {
+                "id": 546,
+                "name": "CS_AUTO",
+                "instance": "cmdSeq",
+                "description": "Set the run mode to AUTO.",
+                "component": "Svc::CmdSequencer",
+                "arguments": []
+            },
+            "547": {
+                "id": 547,
+                "name": "CS_MANUAL",
+                "instance": "cmdSeq",
+                "description": "Set the run mode to MANUAL.",
+                "component": "Svc::CmdSequencer",
+                "arguments": []
+            },
+            "421": {
+                "id": 421,
+                "name": "SET_EVENT_FILTER",
+                "instance": "eventLogger",
+                "description": "Set filter for reporting events. Events are not stored in component.",
+                "component": "Svc::ActiveLogger",
+                "arguments": [
+                    [
+                        [
+                            "ENUM",
+                            "EventLevel"
+                        ],
+                        [
+                            [
+                                "FILTER_WARNING_HI",
+                                null,
+                                null
+                            ],
+                            [
+                                "FILTER_WARNING_LO",
+                                null,
+                                null
+                            ],
+                            [
+                                "FILTER_COMMAND",
+                                null,
+                                null
+                            ],
+                            [
+                                "FILTER_ACTIVITY_HI",
+                                null,
+                                null
+                            ],
+                            [
+                                "FILTER_ACTIVITY_LO",
+                                null,
+                                null
+                            ],
+                            [
+                                "FILTER_DIAGNOSTIC",
+                                null,
+                                null
+                            ]
+                        ]
+                    ],
+                    [
+                        [
+                            "ENUM",
+                            "FilterEnabled"
+                        ],
+                        [
+                            [
+                                "FILTER_ENABLED",
+                                null,
+                                null
+                            ],
+                            [
+                                "FILTER_DISABLED",
+                                null,
+                                null
+                            ]
+                        ]
+                    ]
+                ]
+            },
+            "423": {
+                "id": 423,
+                "name": "SET_ID_FILTER",
+                "instance": "eventLogger",
+                "description": "Filter a particular ID",
+                "component": "Svc::ActiveLogger",
+                "arguments": [
+                    "U32",
+                    [
+                        [
+                            "ENUM",
+                            "IdFilterEnabled"
+                        ],
+                        [
+                            [
+                                "ID_ENABLED",
+                                null,
+                                null
+                            ],
+                            [
+                                "ID_DISABLED",
+                                null,
+                                null
+                            ]
+                        ]
+                    ]
+                ]
+            },
+            "424": {
+                "id": 424,
+                "name": "DUMP_FILTER_STATE",
+                "instance": "eventLogger",
+                "description": "Dump the filter states via events",
+                "component": "Svc::ActiveLogger",
+                "arguments": []
+            },
+            "361": {
+                "id": 361,
+                "name": "HLTH_ENABLE",
+                "instance": "health",
+                "description": "A command to enable or disable health checks",
+                "component": "Svc::Health",
+                "arguments": [
+                    [
+                        [
+                            "ENUM",
+                            "HealthEnabled"
+                        ],
+                        [
+                            [
+                                "HLTH_CHK_DISABLED",
+                                null,
+                                null
+                            ],
+                            [
+                                "HLTH_CHK_ENABLED",
+                                null,
+                                null
+                            ]
+                        ]
+                    ]
+                ]
+            },
+            "362": {
+                "id": 362,
+                "name": "HLTH_PING_ENABLE",
+                "instance": "health",
+                "description": "Ignore a particular ping entry",
+                "component": "Svc::Health",
+                "arguments": [
+                    "string",
+                    [
+                        [
+                            "ENUM",
+                            "PingEnabled"
+                        ],
+                        [
+                            [
+                                "HLTH_PING_DISABLED",
+                                null,
+                                null
+                            ],
+                            [
+                                "HLTH_PING_ENABLED",
+                                null,
+                                null
+                            ]
+                        ]
+                    ]
+                ]
+            },
+            "363": {
+                "id": 363,
+                "name": "HLTH_CHNG_PING",
+                "instance": "health",
+                "description": "Change ping value",
+                "component": "Svc::Health",
+                "arguments": [
+                    "string",
+                    "U32",
+                    "U32"
+                ]
+            },
+            "501": {
+                "id": 501,
+                "name": "SendFile",
+                "instance": "fileDownlink",
+                "description": "Read a named file off the disk. Divide it into packets and send the packets for transmission to the ground.",
+                "component": "Svc::FileDownlink",
+                "arguments": [
+                    "string",
+                    "string"
+                ]
+            },
+            "502": {
+                "id": 502,
+                "name": "Cancel",
+                "instance": "fileDownlink",
+                "description": "Cancel the downlink in progress, if any",
+                "component": "Svc::FileDownlink",
+                "arguments": []
+            },
+            "503": {
+                "id": 503,
+                "name": "SendPartial",
+                "instance": "fileDownlink",
+                "description": "Read a named file off the disk from a starting position. Divide it into packets and send the packets for transmission to the ground.",
+                "component": "Svc::FileDownlink",
+                "arguments": [
+                    "string",
+                    "string",
+                    "U32",
+                    "U32"
+                ]
+            },
+            "601": {
+                "id": 601,
+                "name": "CreateDirectory",
+                "instance": "fileManager",
+                "description": "Create a directory",
+                "component": "Svc::FileManager",
+                "arguments": [
+                    "string"
+                ]
+            },
+            "602": {
+                "id": 602,
+                "name": "MoveFile",
+                "instance": "fileManager",
+                "description": "Move a file",
+                "component": "Svc::FileManager",
+                "arguments": [
+                    "string",
+                    "string"
+                ]
+            },
+            "603": {
+                "id": 603,
+                "name": "RemoveDirectory",
+                "instance": "fileManager",
+                "description": "Remove a directory, which must be empty",
+                "component": "Svc::FileManager",
+                "arguments": [
+                    "string"
+                ]
+            },
+            "604": {
+                "id": 604,
+                "name": "RemoveFile",
+                "instance": "fileManager",
+                "description": "Remove a file",
+                "component": "Svc::FileManager",
+                "arguments": [
+                    "string"
+                ]
+            },
+            "605": {
+                "id": 605,
+                "name": "ShellCommand",
+                "instance": "fileManager",
+                "description": "Perform a Linux shell command and write the output to a log file.",
+                "component": "Svc::FileManager",
+                "arguments": [
+                    "string",
+                    "string"
+                ]
+            },
+            "606": {
+                "id": 606,
+                "name": "AppendFile",
+                "instance": "fileManager",
+                "description": "Append 1 file's contents to the end of another.",
+                "component": "Svc::FileManager",
+                "arguments": [
+                    "string",
+                    "string"
+                ]
+            },
+            "81": {
+                "id": 81,
+                "name": "SB_START_PKTS",
+                "instance": "sendBuffComp",
+                "description": "Command to start sending packets",
+                "component": "Ref::SendBuff",
+                "arguments": []
+            },
+            "82": {
+                "id": 82,
+                "name": "SB_INJECT_PKT_ERROR",
+                "instance": "sendBuffComp",
+                "description": "Send a bad packet",
+                "component": "Ref::SendBuff",
+                "arguments": []
+            },
+            "83": {
+                "id": 83,
+                "name": "SB_GEN_FATAL",
+                "instance": "sendBuffComp",
+                "description": "Generate a FATAL EVR",
+                "component": "Ref::SendBuff",
+                "arguments": [
+                    "U32",
+                    "U32",
+                    "U32"
+                ]
+            },
+            "84": {
+                "id": 84,
+                "name": "SB_GEN_ASSERT",
+                "instance": "sendBuffComp",
+                "description": "Generate an ASSERT",
+                "component": "Ref::SendBuff",
+                "arguments": [
+                    "U32",
+                    "U32",
+                    "U32",
+                    "U32",
+                    "U32",
+                    "U32"
+                ]
+            },
+            "41": {
+                "id": 41,
+                "name": "PR_StopPings",
+                "instance": "pingRcvr",
+                "description": "Command to disable ping response",
+                "component": "Ref::PingReceiver",
+                "arguments": []
+            },
+            "181": {
+                "id": 181,
+                "name": "SG1_SignalGen_Settings",
+                "instance": "SG1",
+                "description": "Signal Generator Settings",
+                "component": "Ref::SignalGen",
+                "arguments": [
+                    "U32",
+                    "F32",
+                    "F32",
+                    "Ref::SignalType"
+                ]
+            },
+            "182": {
+                "id": 182,
+                "name": "SG1_SignalGen_Toggle",
+                "instance": "SG1",
+                "description": "Toggle Signal Generator On/Off.",
+                "component": "Ref::SignalGen",
+                "arguments": []
+            },
+            "183": {
+                "id": 183,
+                "name": "SG1_SignalGen_Skip",
+                "instance": "SG1",
+                "description": "Skip next sample",
+                "component": "Ref::SignalGen",
+                "arguments": []
+            },
+            "201": {
+                "id": 201,
+                "name": "SG3_SignalGen_Settings",
+                "instance": "SG3",
+                "description": "Signal Generator Settings",
+                "component": "Ref::SignalGen",
+                "arguments": [
+                    "U32",
+                    "F32",
+                    "F32",
+                    "Ref::SignalType"
+                ]
+            },
+            "202": {
+                "id": 202,
+                "name": "SG3_SignalGen_Toggle",
+                "instance": "SG3",
+                "description": "Toggle Signal Generator On/Off.",
+                "component": "Ref::SignalGen",
+                "arguments": []
+            },
+            "203": {
+                "id": 203,
+                "name": "SG3_SignalGen_Skip",
+                "instance": "SG3",
+                "description": "Skip next sample",
+                "component": "Ref::SignalGen",
+                "arguments": []
+            },
+            "221": {
+                "id": 221,
+                "name": "SG2_SignalGen_Settings",
+                "instance": "SG2",
+                "description": "Signal Generator Settings",
+                "component": "Ref::SignalGen",
+                "arguments": [
+                    "U32",
+                    "F32",
+                    "F32",
+                    "Ref::SignalType"
+                ]
+            },
+            "222": {
+                "id": 222,
+                "name": "SG2_SignalGen_Toggle",
+                "instance": "SG2",
+                "description": "Toggle Signal Generator On/Off.",
+                "component": "Ref::SignalGen",
+                "arguments": []
+            },
+            "223": {
+                "id": 223,
+                "name": "SG2_SignalGen_Skip",
+                "instance": "SG2",
+                "description": "Skip next sample",
+                "component": "Ref::SignalGen",
+                "arguments": []
+            },
+            "281": {
+                "id": 281,
+                "name": "SG5_SignalGen_Settings",
+                "instance": "SG5",
+                "description": "Signal Generator Settings",
+                "component": "Ref::SignalGen",
+                "arguments": [
+                    "U32",
+                    "F32",
+                    "F32",
+                    "Ref::SignalType"
+                ]
+            },
+            "282": {
+                "id": 282,
+                "name": "SG5_SignalGen_Toggle",
+                "instance": "SG5",
+                "description": "Toggle Signal Generator On/Off.",
+                "component": "Ref::SignalGen",
+                "arguments": []
+            },
+            "283": {
+                "id": 283,
+                "name": "SG5_SignalGen_Skip",
+                "instance": "SG5",
+                "description": "Skip next sample",
+                "component": "Ref::SignalGen",
+                "arguments": []
+            },
+            "321": {
+                "id": 321,
+                "name": "SG4_SignalGen_Settings",
+                "instance": "SG4",
+                "description": "Signal Generator Settings",
+                "component": "Ref::SignalGen",
+                "arguments": [
+                    "U32",
+                    "F32",
+                    "F32",
+                    "Ref::SignalType"
+                ]
+            },
+            "322": {
+                "id": 322,
+                "name": "SG4_SignalGen_Toggle",
+                "instance": "SG4",
+                "description": "Toggle Signal Generator On/Off.",
+                "component": "Ref::SignalGen",
+                "arguments": []
+            },
+            "323": {
+                "id": 323,
+                "name": "SG4_SignalGen_Skip",
+                "instance": "SG4",
+                "description": "Skip next sample",
+                "component": "Ref::SignalGen",
+                "arguments": []
+            }
+        },
+        "serializables": {
+            "Ref::PacketStat": {
+                "name": "PacketStat",
+                "namespace": "Ref",
+                "members": [
+                    {
+                        "name": "BuffRecv",
+                        "type": "U32",
+                        "size": null,
+                        "format_string": "%u",
+                        "comment": "Number of buffers received"
+                    },
+                    {
+                        "name": "BuffErr",
+                        "type": "U32",
+                        "size": null,
+                        "format_string": "%u",
+                        "comment": "Number of buffers received with errors"
+                    },
+                    {
+                        "name": "PacketStatus",
+                        "type": [
+                            [
+                                "ENUM",
+                                "PacketRecvStatus"
+                            ],
+                            [
+                                [
+                                    "PACKET_STATE_NO_PACKETS",
+                                    null,
+                                    null
+                                ],
+                                [
+                                    "PACKET_STATE_OK",
+                                    null,
+                                    null
+                                ],
+                                [
+                                    "PACKET_STATE_ERRORS",
+                                    "3",
+                                    "Receiver has seen errors"
+                                ]
+                            ]
+                        ],
+                        "size": null,
+                        "format_string": "%d",
+                        "comment": "Packet Status"
+                    }
+                ]
+            },
+            "Ref::SignalPair": {
+                "name": "SignalPair",
+                "namespace": "Ref",
+                "members": [
+                    {
+                        "name": "time",
+                        "type": "F32",
+                        "size": null,
+                        "format_string": "%f",
+                        "comment": null
+                    },
+                    {
+                        "name": "value",
+                        "type": "F32",
+                        "size": null,
+                        "format_string": "%f",
+                        "comment": null
+                    }
+                ]
+            },
+            "Ref::SignalInfo": {
+                "name": "SignalInfo",
+                "namespace": "Ref",
+                "members": [
+                    {
+                        "name": "type",
+                        "type": "Ref::SignalType",
+                        "size": null,
+                        "format_string": "%s",
+                        "comment": null
+                    },
+                    {
+                        "name": "history",
+                        "type": "Ref::SignalSet",
+                        "size": null,
+                        "format_string": "%s",
+                        "comment": null
+                    },
+                    {
+                        "name": "pairHistory",
+                        "type": "Ref::SignalPairSet",
+                        "size": null,
+                        "format_string": "%s",
+                        "comment": null
+                    }
+                ]
+            }
+        }
+    }
+}
