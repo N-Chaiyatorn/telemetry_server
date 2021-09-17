@@ -1,7 +1,6 @@
 // telemetry source object for the ODC1
-var fs = require('fs');
-var path = require('path')
 var net = require('net');
+var cassandra = require('./cassandra')
 var binaryDeserializer = require('../util/deserialize-binary');
 
 
@@ -13,31 +12,40 @@ function dataHandler(sourceConfigs) {
 	this.dictionary = require('../res/RefDictionary.json');
     this.deserializer = new binaryDeserializer(this.dictionary, 'Ref');
 
-    let dict = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'res', 'RefChannelPoints.json')));
-
-	this.state = {};
     this.listeners = [];
     this.data = [];
-
-	(dict.points.map(obj => obj.key)).forEach(function (k) {
-		this.state[k] = 0;
-	}, this);
 
 	// to notify telemetry server
 	this.setupConnections();
 
-    this.updateLADState();
-
-    setInterval(function () {
-        this.sendTelemetry();
-    }.bind(this), 500);
+    this.updateLAD();
 };
 
 
 // to update every time new data comes in
+dataHandler.prototype.updateLAD = function () {
+    this.sourceObject.socket.on('data', (data) => {
+		var dataAsJSON = this.deserializer.deserialize(data);
+        dataAsJSON.forEach((data) => {
+            //console.log(data)
+            this.data.push(data);
+        })
+        this.sendTelemetry()
+	});
+};
+
+
 dataHandler.prototype.sendTelemetry = function () {
-	var message = { timestamp: this.state['timestamp'], value: this.state[this.data[0]], id: this.data[0]};
-	this.notify(message);
+    for (let i = this.data.length - 1; i >= 0; i--){
+        var message = {
+            timestamp: this.data[i].timestamp,
+            value: this.data[i].raw_value,
+            id: this.data[i].name
+        };        
+        this.notify(message);
+        cassandra.write(this.data[i])
+        this.data.pop();
+    };
 }
 
 
@@ -80,7 +88,6 @@ dataHandler.prototype.handleConnectionError = function (err, sourceObject) {
             this.handleConnectionError(reject, sourceObject);
         });
     }, this.sourceObject.pollInterval * 1000);
-
 }
 
 
@@ -104,20 +111,6 @@ dataHandler.prototype.connectSocket = function (sourceObject) {
         });
     });
 }
-
-
-dataHandler.prototype.updateLADState = function () {
-    this.sourceObject.socket.on('data', (data) => {
-       console.log(data)
-		var dataAsJSON = this.deserializer.deserialize(data);
-        dataAsJSON.forEach( (data) => {
-            console.log(data)
-            this.data = [data.name, data.raw_value, data.timestamp];
-            this.state[this.data[0]] = this.data[1];
-		    this.state['timestamp'] = Math.round(this.data[2]);
-        })
-	});
-};
 
 
 module.exports = function (sourceObject) {

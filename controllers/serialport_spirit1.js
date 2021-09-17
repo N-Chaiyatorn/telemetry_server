@@ -15,13 +15,11 @@ const deserializer = new binaryDeserializer(require('../res/RefDictionary.json')
 
 //Logic here
 port.open((err) => {
-    if (err){
-        return console.log('Error opening port: ', err.message);
-    }
+    if (err){ return console.log('Error opening port: ', err.message) }
 });
 
 port.on('open', () => {
-    
+    ///statements
 });
 
 parser.on('data', (data) => {

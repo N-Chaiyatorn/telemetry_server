@@ -10,9 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cassandra-driver": "^4.6.3",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-ws": "^4.0.0",
+    "lodash": "^4.17.21",
     "long": "^4.0.0",
     "ntpsync": "^0.2.3",
     "serialport": "^9.2.0",

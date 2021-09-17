@@ -1,4 +1,4 @@
-require('dotenv').config() 
+require('dotenv').config();
 
 module.exports = {
     fprime: {
@@ -10,4 +10,4 @@ module.exports = {
             this.socket.write('Register GUI\n');
         }
     }
-}
+};
