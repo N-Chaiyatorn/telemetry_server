@@ -1,4 +1,10 @@
 node_modules/
-.env
 saved_logs/
 package-lock.json
+subsystemMetadata/
+fprimeMetadata/
+res/
+test/
+Legacy/
+.dockerignore
+.Dockerfile

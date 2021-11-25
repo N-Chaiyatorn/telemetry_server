@@ -1,62 +1,49 @@
-const cassandra = require('cassandra-driver');
-var fs = require('fs');
-var path = require('path')
+const cassandra = require('cassandra-driver')
+const fs = require('fs')
+const path = require('path')
+const querySet = require('../scripts/cassandraQuery')
 
-const client = new cassandra.Client({
-  contactPoints: ['192.168.1.155'],
-  localDataCenter: 'datacenter1',
-  keyspace: 'odc1'
-});
+class CassandraDriver {
+  constructor(keyspace, contactPoints = '192.168.0.77') {
+    this.contactPoints = [contactPoints]
+    this.keyspace = keyspace
+    this.dict = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'res', 'ODC1Dictionary.json')));
+    this.dbDict = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'res', 'ODC1DBMap.json')));
 
-function write(data) {
-    const queryWriteTestNum = `INSERT INTO odc1.test (components, tmtcType, tmtcName, timestamp, numericArg) VALUES (?,?,?,?,?)`
-                                
-    const queryWriteTestText = `INSERT INTO odc1.test (components, tmtcType, tmtcName, timestamp, textArg) VALUES (?,?,?,?,?)`
+    this.client = new cassandra.Client({
+      contactPoints: this.contactPoints,
+      localDataCenter: 'dc1',
+      keyspace: this.keyspace
+    });
+  }
 
-    let dict = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'res', 'RefDictionary.json')));
-  
-    if (data.raw_type === 71 || data.raw_type === 72 || data.raw_type === 73) {
-        var message = {
-            components: dict['Ref']['channels'][data.identifier]['component'],
-            tmtcType: 'channels',
-            tmtcName: data.name,
-            timestamp: data.timestamp,
-            numericArg: data.raw_value,
-          };
-        client.execute(queryWriteTestNum, [message.components, message.tmtcType, message.tmtcName, message.timestamp,
-          message.numericArg], {prepare: true}, (err, res) => {
-            if (err) {throw err}
-            //console.log('successfully write to cassandra!');
-          });
+  write(data, table = 'test') {
+    console.log(data)
+    if (typeof data.value === 'number') {
+      var numericArg = data.value
+      var textArg = undefined
+    } else {
+      var numericArg = undefined
+      var textArg = data.value
     }
-    else if (data.raw_type === 74) {
-        var message = {
-            components: dict['Ref']['channels'][data.identifier]['component'],
-            tmtcType: 'channels',
-            tmtcName: data.name,
-            timestamp: data.timestamp,
-            textArg: data.raw_value,
-          };
-        client.execute(queryWriteTestText, [message.components, message.tmtcType, message.tmtcName, message.timestamp,
-          message.textArg], {prepare: true}, (err, res) => {
-            if (err) {
-              throw err;
-            }
-            //console.log('successfully write to cassandra!');
-          });
+
+    if (data.id && data.timestamp) {
+      this.client.execute(querySet.writeQuery.replace('?', table), [data.id, data.timestamp, numericArg, textArg], { prepare: true }, (err, res) => {
+        if (err) { throw err }
+      });
+    } else {
+      console.error(data)
     }
-};
+  }
 
-function read(telemetryName, start, end) {
-    var query = `SELECT timestamp, tmtcName, numericArg FROM test WHERE components = ? AND tmtcType = ? AND timestamp >= ? AND timestamp <= ? ORDER BY timestamp ASC`;
-    let dict = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'res', 'RefDBMap.json')));
-
-    var datum = client.execute(query, [dict[telemetryName].components, dict[telemetryName].tmtctype, Math.round(start), Math.round(end)], {prepare: true});
-
+  read(tableName='test', nameId, startTime, endTime) {
+    let query = querySet.readQuery.replace('?', tableName)
+    const datum = this.client.execute(query, [nameId, Math.round(startTime), Math.round(endTime)], { prepare: true });
     return datum
+  }
 }
 
 module.exports = {
-  write: write,
-  read: read
-};
+  CassandraDriver: CassandraDriver
+}
+

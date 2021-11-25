@@ -1,8 +1,6 @@
-FROM node:12.16.3
+FROM node:latest
 
 WORKDIR /dockeri
-
-ENV PORT 80
 
 COPY package.json /dockeri/package.json
 

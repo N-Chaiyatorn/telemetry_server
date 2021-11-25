@@ -45,7 +45,7 @@ const packetDescriptionLen = 19;
   * @param {Object} dictionary A dictionary produced by the JSONDictonaryGen Autocoder
   * @param {String} target The name of a deployment in the dictionary to use
   */
-function binaryDeserializer(dictionary, target) {
+function fprimeDeserializer(dictionary, target) {
     this.dictionary = dictionary[target];
 }
 
@@ -58,7 +58,7 @@ function binaryDeserializer(dictionary, target) {
   * @param {number} offset - Byte to start reading from
   * @return Value read, number or string
 */
-binaryDeserializer.prototype.readBuff = function (buff, bits, type, offset) {
+fprimeDeserializer.prototype.readBuff = function (buff, bits, type, offset) {
     let serializableDict = this.dictionary.serializables;
     let serializable = serializableDict[type];
 
@@ -191,7 +191,7 @@ binaryDeserializer.prototype.readBuff = function (buff, bits, type, offset) {
   * @param {string} strBase The format string
   * @param {string[]} argTypes The codes for the types of the arguments
   */
-binaryDeserializer.prototype.formatPrintString = function (buff, strBase, argTypes) {
+fprimeDeserializer.prototype.formatPrintString = function (buff, strBase, argTypes) {
     let offset = 0;
 
     let sprintfRefExp = new RegExp('%', 'g');
@@ -259,7 +259,7 @@ binaryDeserializer.prototype.formatPrintString = function (buff, strBase, argTyp
   * @param {Number} offset The offset to apply
   * @return {Number} The converted value
   */
-binaryDeserializer.prototype.gainOffsetConv = function (value, gain, offset) {
+fprimeDeserializer.prototype.gainOffsetConv = function (value, gain, offset) {
     return gain * value + offset;
 }
 
@@ -269,7 +269,7 @@ binaryDeserializer.prototype.gainOffsetConv = function (value, gain, offset) {
   * @param {string} target - Target name (or deployment)
   * @return: Array of OpenMCT formatted data as JSON
  */
-binaryDeserializer.prototype.deserialize = function (data) {
+fprimeDeserializer.prototype.deserialize = function (data) {
     let telem = this.dictionary;
     let packetArr = [];
     let packetLength = data.length;
@@ -365,11 +365,11 @@ binaryDeserializer.prototype.deserialize = function (data) {
             if (telemData.telem_type === 'channel') {
                 datum.name = telemData.name;
                 datum.raw_type = this.getBSONTypeCode(telemData.type);
-                datum.raw_value = value;
+                datum.value = value;
             } else if (telemData.telem_type === 'event') {
                 datum.name = telemData.name;
                 datum.raw_type = this.getBSONTypeCode('S');
-                datum.raw_value = telemData.severity + ': ' + value;
+                datum.value = telemData.severity + ': ' + value;
             }
 
             // Create datums for eac unit type
@@ -391,7 +391,7 @@ binaryDeserializer.prototype.deserialize = function (data) {
   * @param {string} target The deployment key of the target
   * @return {Array} A list of the channel ids in the deployment
   */
-binaryDeserializer.prototype.getIds = function (target, dictionary) {
+fprimeDeserializer.prototype.getIds = function (target, dictionary) {
     var telem = dictionary[target];  // Get format dictionary
     let ids = [];
     let channels = telem['channels'];
@@ -408,7 +408,7 @@ binaryDeserializer.prototype.getIds = function (target, dictionary) {
   * @param {Object} limits Limits represented in JSON format, eg. {high_red: 3 ...}
   * @return {number} The binary flag for the appropriate limit state
   */
-binaryDeserializer.prototype.evaluateLimits = function (value, limits) {
+fprimeDeserializer.prototype.evaluateLimits = function (value, limits) {
     let flag = flags.allGood;
     if (limits) {
         if (value > limits.high_red && limits.high_red !== null) {
@@ -429,7 +429,7 @@ binaryDeserializer.prototype.evaluateLimits = function (value, limits) {
   * @param {string} data_type The character representing the data type (I, U, F, S, or E)
   * @return {number} The BSON type code
   */
-binaryDeserializer.prototype.getBSONTypeCode = function (data_type) {
+fprimeDeserializer.prototype.getBSONTypeCode = function (data_type) {
     var typeCode = data_type.charAt(0);
     return typeCodes[typeCode];
 }
@@ -439,7 +439,7 @@ binaryDeserializer.prototype.getBSONTypeCode = function (data_type) {
   * @param {string} type The string representing this type, i.e. "I32"
   * @return {number} The length of this type in bites
   */
-binaryDeserializer.prototype.getBitNumber = function (type) {
+fprimeDeserializer.prototype.getBitNumber = function (type) {
     return parseInt(type.substring(1), 10);
 }
 
@@ -448,7 +448,7 @@ binaryDeserializer.prototype.getBitNumber = function (type) {
   * @param {Object} decodedSerializable The decoded serializable as JSON
   * @return {string} A string representing the serializable in the format "key: value ..."
   */
-binaryDeserializer.prototype.formatSerializable = function (decodedSerializable) {
+fprimeDeserializer.prototype.formatSerializable = function (decodedSerializable) {
     let strings = decodedSerializable.map( (member) => {
         let formattedString = '';
         try {
@@ -462,4 +462,4 @@ binaryDeserializer.prototype.formatSerializable = function (decodedSerializable)
     return strings.join(' ');
 }
 
-module.exports = binaryDeserializer;
+module.exports = fprimeDeserializer;

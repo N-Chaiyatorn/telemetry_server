@@ -1,6 +1,6 @@
-*/res/RefChannelPoints.json
-*/res/RefEventPoints.json
-*/res/RefPackets.json
-*/scripts
-*/saved_logs
-.dockerignore
+res/
+fprimeMetadata/
+test/
+subsystemMetadata/
+.gitignore
+package-lock.json
