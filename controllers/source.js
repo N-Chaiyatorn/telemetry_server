@@ -1,27 +1,34 @@
-const net = require('net')
-const serialport = require('serialport');
-const EventEmitter = require('events');
+/** 
+ *  Sink interface which take source object and pipeline telemetry to the sink target
+ *  These classes will be used to retrieve telemetry and stream to sink class's object
+ *  Currently, there are 3 types of interface which is SocketClient, SocketServer and SerialPort
+ * 
+ * @param { Object } sourceConfigs - JSON Object contains metadata of the interface
+ * 
+ * @author Chaiyatorn Niamrat chaiyatorn.n@muspacecorp.com
+ */
 
-class SocketServerSource {
+const net = require('net')
+const serialport = require('serialport')
+const EventEmitter = require('events')
+
+class SocketClient {
   constructor (sourceConfigs) {
     this.connectionName = sourceConfigs.name
     this.type = sourceConfigs.type
 
-    this.socket = new net.Socket()
-    this.ip = sourceConfigs.ip
-    this.port = sourceConfigs.port
-    this.pollInterval = sourceConfigs.pollInterval
-    this.successFunction = sourceConfigs.successFunction
+    this.ip = sourceConfigs.ip || null
+    this.port = sourceConfigs.port || null
+    this.pollInterval = sourceConfigs.pollInterval || 10
+    this.successFunction = sourceConfigs.successFunction || null
+
+    this.interface = new EventEmitter()
 
     this.setupConnections()
   }
 
-  getSocket () {
-    return this.socket
-  }
-
   setupConnections () {
-    this.connectSocket().catch((reject) => {
+    this.connect().catch((reject) => {
       this.printRejectNotice(reject)
       this.handleConnectionError(reject)
     })
@@ -29,24 +36,36 @@ class SocketServerSource {
 
   printRejectNotice (reject) {
     console.log(`${this.connectionName}: Connection Error: ${reject}`)
-    console.log(`${this.connectionName}: Attempting to reconnect ${this.type}: ${this.connectionName} every ${this.pollInterval} seconds`)
+    console.log(`${this.connectionName}: Attempting to reconnect to ${this.type}: ${this.connectionName} every ${this.pollInterval} seconds`)
   }
 
   handleConnectionError () {
     setTimeout(() => {
-      this.connectSocket().catch((reject) => {
+      this.connect().catch((reject) => {
         this.handleConnectionError(reject)
       })
     }, this.pollInterval * 1000)
   }
 
-  connectSocket () {
+  connect() {
+    if (!this.socket) {
+      this.socket = new net.Socket()
+    }
     return new Promise((resolve, reject) => {
       this.socket.connect(this.port, this.ip, () => {
         console.log(`Established ${this.type} connection to ${this.connectionName} on ${this.ip}:${this.port}`)
         if (this.successFunction) this.successFunction()
         resolve(true)
       })
+
+      this.socket.on('data', (data) => {
+        this.interface.emit('received', data)
+      })
+
+      this.socket.on('end', () => {
+        console.log('client disconnected')
+      })
+
       this.socket.on('error', (err) => {
         // clean up event listeners to prevent multiple success or failure messages
         this.socket.removeAllListeners('error')
@@ -57,58 +76,66 @@ class SocketServerSource {
   }
 }
 
-class serialPortSource {
+class SocketServer extends SocketClient {
   constructor (sourceConfigs) {
-    this.connectionName = sourceConfigs.name
-    this.type = sourceConfigs.type
-    this.pollInterval = sourceConfigs.pollInterval
-    this.port = sourceConfigs.port
-
-    this.serialPort = new serialport(`/dev/${this.port}`, {
-        buadRate: 115200,
-        autoOpen: false,
-        lock: false
-      });
-
-    this.setupConnections()
-  }
-
-  getserialPort () {
-    return this.serialPort
-  }
-
-  writeCommand (command) {
-    this.port.write(command, (err) => {
-      if (err) return console.log('Error on write: ', err.message);
-      console.log('Command sent: ', command);
-    });
-  }
-
-  setupConnections () {
-    this.connectSerialPort().catch((reject) => {
-      this.printRejectNotice(reject)
-      this.handleConnectionError(reject)
-    })
+    super(sourceConfigs)
   }
 
   printRejectNotice (reject) {
     console.log(`${this.connectionName}: Connection Error: ${reject}`)
-    console.log(`${this.connectionName}: Attempting to reconnect ${this.type}: ${this.connectionName} every ${this.pollInterval} seconds`)
+    console.log(`${this.connectionName}: Attempting to re-listen to ${this.type}: ${this.connectionName} every ${this.pollInterval} seconds`)
   }
 
-  handleConnectionError () {
-    setTimeout(() => {
-      this.connectSerialPort().catch((reject) => {
-        this.handleConnectionError(reject)
+  connect () {
+    if (!this.server) {
+      console.log("hi1")
+      this.server = net.createServer((socket) => {
+        console.log('Client Connected')
+        socket.on('data', (data) => {
+          this.interface.emit('received', data)
+        })
+        socket.on('end', () => {
+          console.log('Client Disconnected')
+        })
       })
-    }, this.pollInterval * 1000)
+    }
+    return new Promise((resolve, reject) => {
+      this.server.listen(this.port, () => {
+        console.log(`${this.connectionName} ${this.type}: Listening on ${this.ip}:${this.port}`)
+        resolve(true)
+      })
+      this.server.on('error', (err) => {
+        // clean up event listeners to prevent multiple success or failure messages
+        if (err.code === 'EADDRINUSE') {
+          console.log('Address in use, retrying...')
+          server.close()
+        }
+        reject(err.message)
+      })
+    })
+  }
+}
+
+class SerialPort extends SocketClient {
+  constructor (sourceConfigs) {
+    super(sourceConfigs)
   }
 
-  connectSerialPort () {
+  connect () {
+    if (!this.serialPort) {
+      this.serialPort = new serialport(`/dev/${this.port}`, {
+        buadRate: 115200,
+        autoOpen: false,
+        lock: false
+      });
+    }
     return new Promise((resolve, reject) => {
       this.serialPort.open(() => {
         console.log(`Established ${this.type} connection to ${this.connectionName} on ${this.port}`)
         resolve(true)
+      })
+      this.serialPort.on('data', (data) => {
+        this.interface.emit('received', data)
       })
       this.serialPort.on('error', (err) => {
         // clean up event listeners to prevent multiple success or failure messages
@@ -120,72 +147,8 @@ class serialPortSource {
   }
 }
 
-class SocketClientSource {
-  constructor (sourceConfigs) {
-    this.connectionName = sourceConfigs.name
-    this.type = sourceConfigs.type
-    this.pollInterval = sourceConfigs.pollInterval
-
-    this.emitter = new EventEmitter()
-    
-    this.serverConfigs = {
-      host: sourceConfigs.ip,
-      port: sourceConfigs.port
-    }
-    
-    this.server = net.createServer((socket) => {
-      console.log('client connected');
-      socket.on('data', (data) => {
-        this.emitter.emit('received', data);
-      });
-      socket.on('end', () => {
-        console.log('client disconnected');
-      });
-    });
-
-    this.setupConnections()
-  }
-
-  setupConnections () {
-    this.listen().catch((reject) => {
-      this.printRejectNotice(reject)
-      this.handleConnectionError(reject)
-    })
-  }
-
-  printRejectNotice (reject) {
-    console.log(`${this.connectionName}: Connection Error: ${reject}`)
-    console.log(`${this.connectionName}: Attempting to reconnect ${this.type}: ${this.connectionName} every ${this.pollInterval} seconds`)
-  }
-
-  handleConnectionError () {
-    setTimeout(() => {
-      this.listen().catch((reject) => {
-        this.handleConnectionError(reject)
-      })
-    }, this.pollInterval * 1000)
-  }
-
-  listen () {
-    return new Promise((resolve, reject) => {
-      this.server.listen(this.serverConfigs, () => {
-        console.log(`${this.connectionName} ${this.type}: Listening on ${this.serverConfigs.host}:${this.serverConfigs.port}`)
-        resolve(true)
-      })
-      this.server.on('error', (err) => {
-        // clean up event listeners to prevent multiple success or failure messages
-        if (err.code === 'EADDRINUSE') {
-          console.log('Address in use, retrying...');
-          server.close();
-        }
-        reject(err.message)
-      })
-    })
-  }
-}
-
 module.exports = {
-  SocketServerSource: SocketServerSource,
-  serialPortSource: serialPortSource,
-  SocketClientSource: SocketClientSource
+  SocketClient: SocketClient,
+  SocketServer: SocketServer,
+  SerialPort: SerialPort
 }

@@ -1,24 +1,29 @@
+/** 
+ * CassandraDriver class for query the data, both writing and reading
+ * This will be mainly used in Sink object
+ * 
+ * @param { string } keyspace - Keyspace of the needed target
+ * @param { string[] } contactPoints - Array of IP address of the cassandra nodes
+ * 
+ * @author Chaiyatorn Niamrat chaiyatorn.n@muspacecorp.com
+ */
+
 const cassandra = require('cassandra-driver')
-const fs = require('fs')
-const path = require('path')
 const querySet = require('../scripts/cassandraQuery')
 
 class CassandraDriver {
-  constructor(keyspace, contactPoints = '192.168.0.77') {
-    this.contactPoints = [contactPoints]
+  constructor (keyspace, contactPoints=['192.168.0.77']) {
+    this.contactPoints = contactPoints
     this.keyspace = keyspace
-    this.dict = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'res', 'ODC1Dictionary.json')));
-    this.dbDict = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'res', 'ODC1DBMap.json')));
 
     this.client = new cassandra.Client({
       contactPoints: this.contactPoints,
       localDataCenter: 'dc1',
       keyspace: this.keyspace
-    });
+    })
   }
 
-  write(data, table = 'test') {
-    console.log(data)
+  write (data, table='test') {
     if (typeof data.value === 'number') {
       var numericArg = data.value
       var textArg = undefined
@@ -30,15 +35,15 @@ class CassandraDriver {
     if (data.id && data.timestamp) {
       this.client.execute(querySet.writeQuery.replace('?', table), [data.id, data.timestamp, numericArg, textArg], { prepare: true }, (err, res) => {
         if (err) { throw err }
-      });
+      })
     } else {
       console.error(data)
     }
   }
 
-  read(tableName='test', nameId, startTime, endTime) {
-    let query = querySet.readQuery.replace('?', tableName)
-    const datum = this.client.execute(query, [nameId, Math.round(startTime), Math.round(endTime)], { prepare: true });
+  read (tableName='test', nameId, startTime, endTime) {
+    const query = querySet.readQuery.replace('?', tableName)
+    const datum = this.client.execute(query, [nameId, Math.round(startTime), Math.round(endTime)], { prepare: true })
     return datum
   }
 }
@@ -46,4 +51,3 @@ class CassandraDriver {
 module.exports = {
   CassandraDriver: CassandraDriver
 }
-

@@ -1,3 +1,11 @@
+/** 
+ * Metadata Generator, to be used in OpenMCT for populating root node
+ * 
+ * @param { string } target - Target name to specify user-defined metadata path
+ * 
+ * @author Chaiyatorn Niamrat chaiyatorn.n@muspacecorp.com
+ */
+
 const fs = require('fs')
 const path = require('path')
 
@@ -38,7 +46,7 @@ const timeFormat = {
 const valueFormat = {
   key: 'value',
   unit: 'unit',
-  //format: 'float',
+  // format: 'float',
   name: 'value',
   hints: {
     range: 1
@@ -50,7 +58,7 @@ Object.entries(satelliteJson).forEach((subsystem) => {
   const subsystemName = subsystem[0]
   const subsystemMetadata = subsystem[1]
 
-  let satelliteSubsystemDatum = {
+  const satelliteSubsystemDatum = {
     key: `${target}.${subsystemName}`,
     name: `${target}.${subsystemName}`,
     hardwares: {}
@@ -59,27 +67,26 @@ Object.entries(satelliteJson).forEach((subsystem) => {
   Object.entries(subsystemMetadata.hardware).forEach((hardware) => {
     const hardwareName = hardware[0]
     const telemetryDatumArray = hardware[1]
-    const stripHardwareName = hardwareName.replace(/\s/g,'')
+    const stripHardwareName = hardwareName.replace(/\s/g, '')
 
     satelliteSubsystemDatum.hardwares[stripHardwareName] = {}
     satelliteSubsystemDatum.hardwares[stripHardwareName].name = `${hardwareName}`
     satelliteSubsystemDatum.hardwares[stripHardwareName].key = `${target}.${subsystemName}.${stripHardwareName}`
-    satelliteSubsystemDatum.hardwares[stripHardwareName].points =[]
+    satelliteSubsystemDatum.hardwares[stripHardwareName].points = []
 
     telemetryDatumArray.forEach((telemetryDatum) => {
-      let telemetryDatumDict = {
-        key: `${target}.${subsystemName}.${stripHardwareName}.${telemetryDatum.replace(/\s/g,'')}`,
+      const telemetryDatumDict = {
+        key: `${target}.${subsystemName}.${stripHardwareName}.${telemetryDatum.replace(/\s/g, '')}`,
         name: `${telemetryDatum}`,
         values: [timeFormat, valueFormat]
       }
       satelliteSubsystemDatum.hardwares[stripHardwareName].points.push(telemetryDatumDict)
-      telemetryMatchingDict[telemetryDatum] = `${target}.${subsystemName}.${stripHardwareName}.${telemetryDatum.replace(/\s/g,'')}`
+      telemetryMatchingDict[telemetryDatum] = `${target}.${subsystemName}.${stripHardwareName}.${telemetryDatum.replace(/\s/g, '')}`
     })
   })
 
   satelliteMetadataTemplate.subsystems[subsystemName] = satelliteSubsystemDatum
 })
-
 
 // Write configuration files
 const outFilepath = path.dirname(__dirname) + '/' + `subsystemMetadata/${target}/${target}Satellite.json`
