@@ -1,4 +1,4 @@
-/** 
+/**
  * deserialize-binary.js
  *
  * Util library for converting fprime binary packets to json

@@ -1,0 +1,66 @@
+{
+    "adcs": {
+        "hardware": {
+            "MCU": [
+                "q0",
+                "q1",
+                "q2",
+                "q3",
+                "roll",
+                "pitch",
+                "yaw",
+                "CmdVolX",
+                "CmdVolY",
+                "CmdVolZ",
+                "CmdCurX",
+                "CmdCurY",
+                "CmdCurZ"
+            ],
+            "IMU": [
+                "accelX",
+                "accelY",
+                "accelZ",
+                "angularVx",
+                "angularVy",
+                "angularVz"
+            ],
+            "Magnetometer": [
+                "magX",
+                "magY",
+                "magZ"
+            ],
+            "ReactionWheel": [
+                "rpm1",
+                "rpm2",
+                "rpm3",
+                "rpm4"
+            ],
+            "Magnetorquer": [
+                "opVolx",
+                "opVoly",
+                "opVolz"
+            ]
+        }
+    },
+    "CDHS": {
+        "hardware": {
+            "OBC": [
+                "status"
+            ]
+        }
+    },
+    "ttcs": {
+        "hardware": {
+            "transceiver": [
+                "a",
+                "b",
+                "c"
+            ],
+            "antenna": [
+                "x",
+                "y",
+                "z"
+            ]
+        }
+    }
+}
