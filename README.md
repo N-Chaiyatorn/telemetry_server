@@ -1,10 +1,8 @@
 # Telemetry Server
 ### _The Telemetry Server for realtime IoT telemetry ETL_
-&nbsp;
 _Telemetry Server_ is a node-express-powered Realtime IoT telemetry ETL server that focus on flexibility, scalability and ease of use.
 
 ## Features
-___
 - Realtime ETL from/to socket server/client, serialport, etc. depends on which data interface types we need.
 - Multiple ETL processes simultaneously (technically not) regardless of data interface types.
 - Integrated with user defined deserialize/transforming algorithm easily.
@@ -13,7 +11,6 @@ ___
 - Support historical telemetry RESTful API.
 
 ## Dependencies
-___
 _Telemetry Server_ uses a number of open source projects to work properly:
 
 - [node.js] - Asynchronous event-driven JavaScript runtime environment, suitable for non-blocking I/O needed application.
@@ -23,7 +20,6 @@ _Telemetry Server_ uses a number of open source projects to work properly:
 - [node-serialport] - Node.js library for access Linux/OSX/Windows serial port
   
 ## Installation
-___
 _Telemetry Server_ requires [Node.js](https://nodejs.org/) v16.13+ to run.
 
 Clone the repository and install the dependencies
@@ -35,7 +31,6 @@ npm install
 ```
 
 ## Usage
-___
 To run this software, you need to follow severals step to configure the behavior of the software
 1. Set the configuration of the telemetry source interface in `/configs/sourceConfigs.js`.
 2. Define your deserialize/transforming algorithm in `/util/transformer.js` as a new function.
@@ -51,9 +46,8 @@ To run this software, you need to follow severals step to configure the behavior
 > Once started, the source interface will try to connect to the source. If success it will retrives the telemetry and pipeline to the sink interface. **_Also, the data transforming and logging will be automatically done if you specified them in the sink interface objects_**
 
 ## Using with OpenMCT
-___
 To use this _Telemetry Server_ with NASA's OpenMCT, first you need to clone this [forked version] of the OpenMCT. 
-Then create user-defined json metadata (which is needed to conform the structure of example `res/developmentSatelliteDictionary.json`) and run this command in _Telemetry Server_ root directory
+Then create user-defined json metadata (which is needed to conform the structure of example `res/developmentSatelliteDictionary.json`) and run this command in _Telemetry Server_ root directory.
    ```sh
    npm run configure <yourMetadataFileName>
    ```
