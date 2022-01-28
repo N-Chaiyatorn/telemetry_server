@@ -37,7 +37,6 @@ class OpenMctSink {
   sendData() {
     for (let i = this.dataArray.length - 1; i >= 0; i--) {
       const data = this.dataArray[i];
-      console.log(data);
       if (this.databaseDriver) this.databaseDriver.write(data);
       this.notify(data);
       this.dataArray.pop();
