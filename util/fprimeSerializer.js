@@ -6,6 +6,7 @@
  * @param {type} type - Either a "U", "I" or "F"
  * @return a big-endian buffer array of the number
  */
+
 function numBuff (num, bits, type) {
   const buff = Buffer.alloc(bits / 8)
   switch (type.substring(0, 1)) {

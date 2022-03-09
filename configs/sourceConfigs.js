@@ -5,7 +5,7 @@ module.exports = {
     name: "Ref",
     type: "Socket Server",
     port: 50050,
-    ip: "192.168.0.246",
+    ip: "192.168.0.182",
     pollInterval: 10,
     successFunction: function (socket) {
       // ThreadedTCPServer will not send packets until it recieves this command

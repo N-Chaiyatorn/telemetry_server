@@ -1,11 +1,11 @@
 FROM node:latest
 
-WORKDIR /dockeri
+WORKDIR /server
 
-COPY package.json /dockeri/package.json
+COPY package.json /server/package.json
 
 RUN npm install
 
-COPY . /dockeri
+COPY . /server
 
 CMD ["npm", "start"]

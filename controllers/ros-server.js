@@ -1,5 +1,5 @@
 /**
- * RESTful API for ROS communication
+ * API for ROS communication
  *
  * @author Chaiyatorn Niamrat chaiyatorn.n@muspacecorp.com
  */

@@ -1,5 +1,5 @@
 /**
- * SocketIO interface for realtime telemetry socket endpoint
+ * Socket interface for realtime telemetry socket endpoint
  *
  * @author Chaiyatorn Niamrat chaiyatorn.n@muspacecorp.com
  */
