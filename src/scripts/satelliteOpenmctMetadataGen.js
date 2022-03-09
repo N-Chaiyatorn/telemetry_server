@@ -115,3 +115,7 @@ fs.writeFileSync(
   outFilepath + `/${target}TlmMatchingOpenmct.json`,
   JSON.stringify(telemetryMatchingDict)
 );
+
+console.log(
+  `\nPlease move generated file to the satelliteObject Plugin in OpenMCT before start OpenMCT\n`
+);

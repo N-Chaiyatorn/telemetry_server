@@ -16,8 +16,8 @@ const Source = require("./Classes/Extractor/Extractor.js");
 const Deserializer = require("./util/Deserializer.js");
 
 // Express routers
-const OpenmctRealtimeServer = require("./routers/openmct-realtime-server.js");
-const OpenmctHistoryServer = require("./routers/openmct-history-server.js");
+const OpenmctRealtimeServer = require("./api/openmctRealtimeApi.js");
+const OpenmctHistoryServer = require("./api/openmctHistoricalApi.js");
 
 // Initialize database driver for development keyspace
 const { CassandraDriver } = require("./Classes/Database/Cassandra.js");
