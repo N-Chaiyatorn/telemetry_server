@@ -1,0 +1,215 @@
+{
+    "ADCS": {
+        "hardware": {
+            "MCU": [
+                "q0",
+                "q1",
+                "q2",
+                "q3",
+                "Roll",
+                "Pitch",
+                "Yaw",
+                "Command Voltage X",
+                "Command Voltage Y",
+                "Command Voltage Z",
+                "Command Current X",
+                "Command Current Y",
+                "Command Current Z"
+            ],
+            "IMU": [
+                "Acceleration X",
+                "Acceleration Y",
+                "Acceleration Z",
+                "Angular Velocity X",
+                "Angular Velocity Y",
+                "Angular Velocity Z"
+            ],
+            "Magnetometer": [
+                "Magnetic Field X",
+                "Magnetic Field Y",
+                "Magnetic Field Z"
+            ],
+            "ReactionWheel": [
+                "RPM 1",
+                "RPM 2",
+                "RPM 3",
+                "RPM 4"
+            ],
+            "Magnetorquer": [
+                "Output Voltage X",
+                "Output Voltage Y",
+                "Output Voltage Z"
+            ],
+            "Sun Sensor": [
+                "Vector"
+            ],
+            "Star Tracker": [
+                "Vector"
+            ],
+            "GNSS Receiver": [
+                "Latitude",
+                "Longitude",
+                "Altitude"
+            ]
+        }
+    },
+    "CDHS": {
+        "hardware": {
+            "OBC System": [
+                "RAM Usage",
+                "CPU Usage",
+                "Specific Gravity",
+                "Magnetic Field"
+            ],
+            "STM32 ADC Driver": [
+                "Current Read"
+            ],
+            "STM32 USART Driver": [
+                "Read and Write Speed",
+                "Number of bytes received",
+                "Number of bytes sent"
+            ],
+            "STM32 I2C Driver": [
+                "Read and Write Speed",
+                "Number of bytes received",
+                "Number of bytes sent"
+            ],
+            "STM32 GPIO Driver": [
+                "Current Direction",
+                "Current Pin Set",
+                "Current Pin Read"
+            ],
+            "STM32 SPI Driver": [
+                "Read and Write Speed",
+                "Number of bytes received",
+                "Number of bytes sent"
+            ],
+            "Time": [
+                "Source of Oscillation",
+                "Tick Frequency"
+            ],
+            "OBC Data Storage": [
+                "Space Left",
+                "Space Used",
+                "Current Firmware Version",
+                "Size of Log File"
+            ],
+            "OBC Flight Control": [
+                "Current Mode"
+            ],
+            "OBC Communication": [
+                "Transceiver Packet Sent",
+                "Transceiver Packet Received"
+            ]
+        }
+    },
+    "TTCS": {
+        "hardware": {
+            "S Band Transceiver": [
+                "Numbet of Packet Transmitted",
+                "Numbet of Packet Received",
+                "Modulation Scheme",
+                "Demodulation Scheme"
+            ],
+            "X Band Transmitter": [
+                "Numbet of Packet Transmitted",
+                "Modulation Scheme",
+                "Number of Bytes In"
+            ],
+            "X Band RF Switch": [
+                "Current Antenna"
+            ],
+            "S Band Tx RF Switch": [
+                "Current Antenna"
+            ],
+            "S Band Rx RF Switch": [
+                "Current Antenna"
+            ]
+        }
+    },
+    "Thermal": {
+        "hardware": {
+            "Thermocouples": [
+                "Battery Temperature 1",
+                "Battery Temperature 2",
+                "Battery Temperature 3",
+                "PCU Temperature 1",
+                "PCU Temperature 2",
+                "Optic Temperature",
+                "North Solar Array",
+                "South Solar Array"
+            ],
+            "Heater": [
+                "Status At Battery"
+            ],
+            "Thermostat": [
+                "Status At Battery"
+            ]
+        }
+    },
+    "Payload": {
+        "hardware": {
+            "LaserCircuit": [
+                "Intensity",
+                "Photoreceptor"
+            ],
+            "PayloadOBC": [
+                "x"
+            ],
+            "EthernetSwitch": [
+                "x"
+            ],
+            "Camera": [
+                "x"
+            ],
+            "DataServer": [
+                "x"
+            ]
+        }
+    },
+    "Power": {
+        "hardware": {
+            "PCU": [
+                "CPU Usage",
+                "Ram Usage",
+                "Channel x Status"
+            ],
+            "BMS": [
+                "Voltage",
+                "Current Draw"
+            ],
+            "SolarPanel": [
+                "Power Generation Rate"
+            ]
+        }
+    },
+    "Propulsion": {
+        "hardware": {
+            "MCU": [
+                "CPU Usage",
+                "Ram Usage"
+            ]
+        }
+    },
+    "Structure": {
+        "hardware": {
+            "Camera": [
+                "Image at Solar Array",
+                "Image at Hall Effect Thruster"
+            ],
+            "Accelerometer": [
+                "Accelerometer 1",
+                "Accelerometer 2"
+            ],
+            "Release Mechanism": [
+                "Status"
+            ],
+            "Stepper Motor": [
+                "Turn Rate",
+                "Direction",
+                "Current Angle",
+                "Destination Angle"
+            ]
+        }
+    }
+}

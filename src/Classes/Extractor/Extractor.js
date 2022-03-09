@@ -69,10 +69,6 @@ class SocketClient {
         this.interface.emit("received", data);
       });
 
-      this.socket.on("end", () => {
-        console.log("Client disconnected");
-      });
-
       this.socket.on("error", (err) => {
         this.socket.removeAllListeners("error");
         this.socket.removeAllListeners("data");

@@ -17,21 +17,21 @@ const target = process.argv[2];
 if (!target)
   throw new Error(`Usage: node ${path.basename(__filename)} <target>`);
 
-const targetDirName = path.dirname(__dirname) + `fprimeMetadata/${target}`;
+const targetDirName = path.dirname(__dirname) + `/metadata/openmct/fprimeMetadata/${target}`;
 
 if (!fs.existsSync(targetDirName)) {
   fs.mkdirSync(targetDirName, { recursive: true });
 }
 
-const outFilenameChPoints = `fprimeMetadata/${target}/${target}ChannelPoints.json`;
-const outFilenameEvPoints = `fprimeMetadata/${target}/${target}EventPoints.json`;
-const outFilenameCmdPoints = `fprimeMetadata/${target}/${target}CommandPoints.json`;
-const outFilenameCassandra = `fprimeMetadata/${target}/${target}CassandraMap.json`;
-const outFilenamePackets = `fprimeMetadata/${target}/${target}Packets.json`;
+const outFilenameChPoints = targetDirName + `/${target}ChannelPoints.json`;
+const outFilenameEvPoints = targetDirName + `/${target}EventPoints.json`;
+const outFilenameCmdPoints = targetDirName + `/${target}CommandPoints.json`;
+const outFilenameCassandra = targetDirName + `/${target}CassandraMap.json`;
+const outFilenamePackets = targetDirName + `/${target}Packets.json`;
 
 const fprimeDictPath =
   path.dirname(__dirname) +
-  `/fprimeMetadata/${target}/${target}Dictionary.json`;
+  `/metadata/raw/${target}Dictionary.json`;
 
 const fprimeDict = fs.readFileSync(fprimeDictPath, { encoding: "UTF-8" });
 const fprimeJson = JSON.parse(fprimeDict);
@@ -163,29 +163,21 @@ Object.entries(targetDict).forEach((tmtcType) => {
 });
 
 // Write configuration files
-const outFilepathChPoints = path.dirname(__dirname) + "/" + outFilenameChPoints;
-const outFilepathEvPoints = path.dirname(__dirname) + "/" + outFilenameEvPoints;
-const outFilepathCmdPoints =
-  path.dirname(__dirname) + "/" + outFilenameCmdPoints;
-const outFilepathPackets = path.dirname(__dirname) + "/" + outFilenamePackets;
-const outFilepathCassandra =
-  path.dirname(__dirname) + "/" + outFilenameCassandra;
+console.log(`Writing channel points config file to ${outFilenameChPoints}`);
+fs.writeFileSync(outFilenameChPoints, JSON.stringify(channelPointDict));
 
-console.log(`Writing channel points config file to ${outFilepathChPoints}`);
-fs.writeFileSync(outFilepathChPoints, JSON.stringify(channelPointDict));
+console.log(`Writing event points config file to ${outFilenameEvPoints}`);
+fs.writeFileSync(outFilenameEvPoints, JSON.stringify(eventPointDict));
 
-console.log(`Writing event points config file to ${outFilepathEvPoints}`);
-fs.writeFileSync(outFilepathEvPoints, JSON.stringify(eventPointDict));
+console.log(`Writing command points config file to ${outFilenameCmdPoints}`);
+fs.writeFileSync(outFilenameCmdPoints, JSON.stringify(commandPointDict));
 
-console.log(`Writing command points config file to ${outFilepathCmdPoints}`);
-fs.writeFileSync(outFilepathCmdPoints, JSON.stringify(commandPointDict));
+console.log(`Writing packets config file to ${outFilenamePackets}`);
+fs.writeFileSync(outFilenamePackets, JSON.stringify(packetDict));
 
-console.log(`Writing packets config file to ${outFilepathPackets}`);
-fs.writeFileSync(outFilepathPackets, JSON.stringify(packetDict));
-
-console.log(`Writing cassandra map file to ${outFilepathCassandra}`);
-fs.writeFileSync(outFilepathCassandra, JSON.stringify(cassandraDict));
+console.log(`Writing cassandra map file to ${outFilenameCassandra}`);
+fs.writeFileSync(outFilenameCassandra, JSON.stringify(cassandraDict));
 
 console.log(
-  `\nTo start the OpenMCT server configured for this deployment, use deployment key '${target}'\n`
+  `\nPlease move generated file to the fprimeObject Plugin in OpenMCT before start OpenMCT\n`
 );

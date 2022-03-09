@@ -1,14 +1,2 @@
-*
-
-!controllers/*.js
-!res/*development*.json
-!script/*subsystem*.js
-!script/*cassandra*.js
-!util
-!util/*
-!Dockerfile
-!package.json
-!server.js
-!README.md
-!interfaces
-!interfaces/*
+node_modules
+rosDep

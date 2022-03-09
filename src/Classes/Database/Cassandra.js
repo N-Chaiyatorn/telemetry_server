@@ -9,7 +9,7 @@
  */
 
 const cassandra = require("cassandra-driver");
-const querySet = require("../scripts/cassandraQuery");
+const querySet = require("../../scripts/cassandraQuery");
 
 class CassandraDriver {
   constructor(keyspace, contactPoints = ["192.168.0.77"]) {

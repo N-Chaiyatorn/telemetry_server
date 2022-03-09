@@ -14,14 +14,8 @@ const target = process.argv[2];
 if (!target)
   throw new Error(`${path.basename(__filename)}: Target name is needed`);
 
-const targetDirName = path.dirname(__dirname) + `/subsystemMetadata/${target}`;
-
-if (!fs.existsSync(targetDirName)) {
-  fs.mkdirSync(targetDirName, { recursive: true });
-}
-
 const satelliteDictPath =
-  path.dirname(__dirname) + `/res/${target}.json`;
+  path.dirname(__dirname) + `/metadata/raw/${target}SatelliteDictionary.json`;
 
 const satelliteDict = fs.readFileSync(satelliteDictPath, { encoding: "UTF-8" });
 const satelliteJson = JSON.parse(satelliteDict);
@@ -82,14 +76,22 @@ Object.entries(satelliteJson).forEach((subsystem) => {
 
     telemetryDatumArray.forEach((telemetryDatum) => {
       const telemetryDatumDict = {
-        key: `${target}.${subsystemName}.${stripHardwareName}.${telemetryDatum.replace(/\s/g, "")}`,
+        key: `${target}.${subsystemName}.${stripHardwareName}.${telemetryDatum.replace(
+          /\s/g,
+          ""
+        )}`,
         name: `${telemetryDatum}`,
         values: [timeFormat, valueFormat],
       };
-      satelliteSubsystemDatum.hardwares[stripHardwareName].points.push(telemetryDatumDict);
+      satelliteSubsystemDatum.hardwares[stripHardwareName].points.push(
+        telemetryDatumDict
+      );
       telemetryMatchingDict[
         telemetryDatum
-      ] = `${target}.${subsystemName}.${stripHardwareName}.${telemetryDatum.replace(/\s/g, "")}`;
+      ] = `${target}.${subsystemName}.${stripHardwareName}.${telemetryDatum.replace(
+        /\s/g,
+        ""
+      )}`;
     });
   });
 
@@ -97,17 +99,19 @@ Object.entries(satelliteJson).forEach((subsystem) => {
 });
 
 // Write configuration files
-const outFilepath =
-  path.dirname(__dirname) +
-  "/" +
-  `subsystemMetadata/${target}/${target}Satellite.json`;
-const outFileTlmpath =
-  path.dirname(__dirname) +
-  "/" +
-  `subsystemMetadata/${target}/${target}TlmMatching.json`;
+const outFilepath = path.dirname(__dirname) + `/metadata/openmct/${target}`;
+if (!fs.existsSync(outFilepath)) {
+  fs.mkdirSync(outFilepath, { recursive: true });
+}
 
 console.log(`Writing ${target} metadata file to ${outFilepath}`);
-fs.writeFileSync(outFilepath, JSON.stringify(satelliteMetadataTemplate));
+fs.writeFileSync(
+  outFilepath + `/${target}SatelliteOpenmct.json`,
+  JSON.stringify(satelliteMetadataTemplate)
+);
 
-console.log(`Writing ${target} telemetry matching file to ${outFileTlmpath}`);
-fs.writeFileSync(outFileTlmpath, JSON.stringify(telemetryMatchingDict));
+console.log(`Writing ${target} telemetry matching file to ${outFilepath}`);
+fs.writeFileSync(
+  outFilepath + `/${target}TlmMatchingOpenmct.json`,
+  JSON.stringify(telemetryMatchingDict)
+);
