@@ -3,7 +3,7 @@
  *  These classes will be used to retrieve telemetry and stream to sink class's object
  *  Currently, there are 3 types of interface which is SocketClient, SocketServer and SerialPort
  *
- * @param { Object } sourceConfigs - Config file for target source, contains name, type, port, ip, pollInterval, successFunction
+ * @param { Object } extractorConfigs - Config file for target source, contains name, type, port, ip, pollInterval, successFunction
  *
  * @author Chaiyatorn Niamrat chaiyatorn.n@muspacecorp.com
  */
@@ -16,14 +16,14 @@ const Three = require("three");
 //const Ros2d = require("../rosDep/ros2d.js");
 
 class SocketClient {
-  constructor(sourceConfigs) {
-    this.connectionName = sourceConfigs.name;
-    this.type = sourceConfigs.type;
+  constructor(extractorConfigs) {
+    this.connectionName = extractorConfigs.name;
+    this.type = extractorConfigs.type;
 
-    this.ip = sourceConfigs.ip;
-    this.port = sourceConfigs.port;
-    this.pollInterval = sourceConfigs.pollInterval || 10;
-    this.successFunction = sourceConfigs.successFunction;
+    this.ip = extractorConfigs.ip;
+    this.port = extractorConfigs.port;
+    this.pollInterval = extractorConfigs.pollInterval || 10;
+    this.successFunction = extractorConfigs.successFunction;
 
     this.interface = new EventEmitter();
 
@@ -81,8 +81,8 @@ class SocketClient {
 }
 
 class SocketServer extends SocketClient {
-  constructor(sourceConfigs) {
-    super(sourceConfigs);
+  constructor(extractorConfigs) {
+    super(extractorConfigs);
   }
 
   printRejectNotice(reject) {
@@ -125,8 +125,8 @@ class SocketServer extends SocketClient {
 }
 
 class SerialPort extends SocketClient {
-  constructor(sourceConfigs) {
-    super(sourceConfigs);
+  constructor(extractorConfigs) {
+    super(extractorConfigs);
   }
 
   connect() {
@@ -158,10 +158,10 @@ class SerialPort extends SocketClient {
 }
 
 class RosInterface extends SocketClient {
-  constructor(sourceConfigs) {
-    super(sourceConfigs);
-    this.topics = sourceConfigs.topics;
-    this.waypoints = sourceConfigs.waypoints;
+  constructor(extractorConfigs) {
+    super(extractorConfigs);
+    this.topics = extractorConfigs.topics;
+    this.waypoints = extractorConfigs.waypoints;
 
     this.connectionState = false;
 

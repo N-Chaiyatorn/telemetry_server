@@ -6,7 +6,7 @@
 
 const express = require("express");
 
-function rosServer(RosInterface) {
+function rosServer(rosExtractor) {
   const router = express.Router();
 
   // allow requesting code from any origin to access the resource
@@ -18,7 +18,7 @@ function rosServer(RosInterface) {
   // handle telemetry requests
   router.get("/state", function (req, res) {
     const topic = req.query.topic;
-    res.send(RosInterface.getState(topic).toString()).end();
+    res.send(rosExtractor.getState(topic).toString()).end();
   });
   
   router.get("/waypointCmd", function (req, res) {
@@ -27,7 +27,7 @@ function rosServer(RosInterface) {
     const waypoint = req.query.waypoint.toLowerCase();
     res.set("Content-Type", "text/html");
     try {
-      RosInterface.waypointCmd(place, waypoint)
+      rosExtractor.waypointCmd(place, waypoint)
       res.send(`Your waypoint command to ${place}:${waypoint} is successfully dispatched!`).end();
 
     } catch {
@@ -41,7 +41,7 @@ function rosServer(RosInterface) {
     res.set("Content-Type", "text/html");
 
     try {
-      RosInterface.joystickCmd(linear, angular)
+      rosExtractor.joystickCmd(linear, angular)
       res.send(`Your joystick command is successfully dispatched!`).end();
 
     } catch {

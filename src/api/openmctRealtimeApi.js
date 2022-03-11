@@ -7,10 +7,11 @@
 
 const express = require("express");
 
-function openmctRealtimeServer(sourceObject, transformer, databaseDriver) {
+function openmctRealtimeServer(extractor, deserializer, databaseDriver) {
   const router = express.Router();
-  this.sourceObject = sourceObject;
-  this.transformer = transformer || null;
+  
+  this.extractor = extractor;
+  this.deserializer = deserializer || null;
   this.databaseDriver = databaseDriver || null;
   this.listeners = [];
   this.dataArray = [];
@@ -31,10 +32,9 @@ function openmctRealtimeServer(sourceObject, transformer, databaseDriver) {
   };
 
   router.ws("/", function (ws) {
-    this.sourceObject.interface.on("received", (data) => {
-      console.log(data);
-      if (this.transformer) {
-        const jsonDataArray = this.transformer(data);
+    this.extractor.interface.on("received", (data) => {
+      if (this.deserializer) {
+        const jsonDataArray = this.deserializer(data);
         jsonDataArray.forEach((data) => {
           this.dataArray.push(data);
         });

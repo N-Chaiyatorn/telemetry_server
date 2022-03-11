@@ -8,13 +8,11 @@ const expressWs = require("express-ws");
 const app = require("express")();
 expressWs(app);
 
-const sourceConfigs = require("./configs/ExtractorConfigs.js");
-
+const ExtractorConfigs = require("./configs/ExtractorConfigs.js");
 const Extractor = require("./Classes/Extractor/Extractor.js");
-
 const Deserializer = require("./Classes/Deserializer/Deserializer.js");
 
-// Express routers
+// Express routers for OpenMCT
 const OpenmctRealtimeServer = require("./api/openmctRealtimeApi.js");
 const OpenmctHistoryServer = require("./api/openmctHistoricalApi.js");
 
@@ -22,15 +20,17 @@ const OpenmctHistoryServer = require("./api/openmctHistoricalApi.js");
 const { CassandraDriver } = require("./Classes/DatabaseConnector/Cassandra.js");
 const cassandraDriver = new CassandraDriver("development");
 
-// Setup Ref Fprime-gds connection and serve to API
-const refExtractor = new Extractor.SocketClient(sourceConfigs.fprime);
+// Setup connection to fprime-gds and serve the telemetry to Realtime WebSocket API /
+const refExtractor = new Extractor.SocketClient(ExtractorConfigs.fprime);
 app.use(
-  "/realtime/" + sourceConfigs.fprime.name,
+  "/realtime/" + ExtractorConfigs.fprime.name,
   OpenmctRealtimeServer(refExtractor, Deserializer.fprimeDeserialize)
 );
+// Setup historical telemetry RESTful API (using HTTP protocol)
 app.use("/history", OpenmctHistoryServer(cassandraDriver));
 
+// Start the server process
 const PORT = process.env.PORT || 16969;
 app.listen(PORT, () => {
-  console.log(`OpenMCT telemetry server is listening on ${PORT}`);
+  console.log(`Telemetry server is listening on ${PORT}`);
 });

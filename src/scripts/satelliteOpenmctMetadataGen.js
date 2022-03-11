@@ -106,13 +106,13 @@ if (!fs.existsSync(outFilepath)) {
 
 console.log(`Writing ${target} metadata file to ${outFilepath}`);
 fs.writeFileSync(
-  outFilepath + `/${target}SatelliteOpenmct.json`,
+  outFilepath + `/${target}Satellite.json`,
   JSON.stringify(satelliteMetadataTemplate)
 );
 
 console.log(`Writing ${target} telemetry matching file to ${outFilepath}`);
 fs.writeFileSync(
-  outFilepath + `/${target}TlmMatchingOpenmct.json`,
+  outFilepath + `/${target}TlmMatching.json`,
   JSON.stringify(telemetryMatchingDict)
 );
 

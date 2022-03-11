@@ -6,16 +6,16 @@
 
 const express = require("express");
 
-function generalRealtimeServer(sourceObject, transformer) {
+function generalRealtimeServer(extractor, extractor) {
   const router = express.Router();
 
-  this.transformer = transformer || null;
+  this.extractor = extractor || null;
 
   router.ws("/", (ws) => {
-    sourceObject.interface.on("received", (data) => {
+    extractor.interface.on("received", (data) => {
       if (ws.readyState === 1) {
-        if (this.transformer) {
-          const jsonDataArray = this.transformer(data);
+        if (this.extractor) {
+          const jsonDataArray = this.extractor(data);
           jsonDataArray.forEach((data) => {
             ws.send(JSON.stringify(data));
           });
@@ -34,7 +34,7 @@ function generalRealtimeServer(sourceObject, transformer) {
 
     ws.on("close", () => {
       console.log("Client disconnected");
-      sourceObject.interface.removeAllListeners("received");
+      extractor.interface.removeAllListeners("received");
     });
   });
 
