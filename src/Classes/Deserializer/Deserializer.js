@@ -11,14 +11,14 @@
 
 function fprimeDeserialize(data) {
   const FprimeDeserializer = require("./fprimeDeserializer");
-  const refDictionary = require("../res/RefDictionary.json");
+  const refDictionary = require("../../metadata/raw/RefDictionary.json");
   const deserializer = new FprimeDeserializer(refDictionary, "Ref");
   const jsonDataArray = deserializer.deserialize(data);
   return jsonDataArray;
 }
 
 function parinDeserialize(data) {
-  const tlmMatching = require("../subsystemMetadata/development/developmentTlmMatching.json");
+  const tlmMatching = require("../../metadata/openmct/development/developmentTlmMatching.json");
   const rawDataMetadata = [
     "q0",
     "q1",

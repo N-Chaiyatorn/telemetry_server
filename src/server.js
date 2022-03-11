@@ -1,4 +1,4 @@
-/** Main process of muSpace telemetry server
+/** Entry point of muSpace telemetry server
  *
  * @author Chaiyatorn Niamrat chaiyatorn.n@muspacecorp.com
  */
@@ -10,24 +10,23 @@ expressWs(app);
 
 const sourceConfigs = require("./configs/ExtractorConfigs.js");
 
-const Source = require("./Classes/Extractor/Extractor.js");
+const Extractor = require("./Classes/Extractor/Extractor.js");
 
-// Deserializer
-const Deserializer = require("./util/Deserializer.js");
+const Deserializer = require("./Classes/Deserializer/Deserializer.js");
 
 // Express routers
 const OpenmctRealtimeServer = require("./api/openmctRealtimeApi.js");
 const OpenmctHistoryServer = require("./api/openmctHistoricalApi.js");
 
 // Initialize database driver for development keyspace
-const { CassandraDriver } = require("./Classes/Database/Cassandra.js");
+const { CassandraDriver } = require("./Classes/DatabaseConnector/Cassandra.js");
 const cassandraDriver = new CassandraDriver("development");
 
 // Setup Ref Fprime-gds connection and serve to API
-const refSource = new Source.SocketClient(sourceConfigs.fprime);
+const refExtractor = new Extractor.SocketClient(sourceConfigs.fprime);
 app.use(
   "/realtime/" + sourceConfigs.fprime.name,
-  OpenmctRealtimeServer(refSource, Deserializer.fprimeDeserialize)
+  OpenmctRealtimeServer(refExtractor, Deserializer.fprimeDeserialize)
 );
 app.use("/history", OpenmctHistoryServer(cassandraDriver));
 

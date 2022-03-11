@@ -305,6 +305,7 @@ fprimeDeserializer.prototype.deserialize = function (data) {
 
     // Find telemetry format specifiers
     let telemData
+    console.log(id)
     if (descriptor == 1) {
       // If channel
       telemData = telem.channels[id.toString()]
